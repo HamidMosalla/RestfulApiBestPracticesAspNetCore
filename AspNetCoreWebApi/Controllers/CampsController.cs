@@ -35,7 +35,7 @@ namespace AspNetCoreWebApi.Controllers
         [HttpGet("{id}", Name = "GetCamper")]
         public IActionResult Get(int id)
         {
-            var camp = _campCompContext.Campers.SingleOrDefault(c => c.Id == id);
+            var camp = _campCompContext.Campers.SingleOrDefault(c => c.CamperId == id);
 
             if (camp == null) return NotFound();
 
@@ -55,7 +55,7 @@ namespace AspNetCoreWebApi.Controllers
 
             if (addCampResult > 0)
             {
-                var uri = Url.Link("GetCamper", new { id = camper.Id });
+                var uri = Url.Link("GetCamper", new { id = camper.CamperId });
 
                 return Created(uri, camper);
             }
@@ -70,7 +70,7 @@ namespace AspNetCoreWebApi.Controllers
         {
             if (camper == null) return BadRequest();
 
-            var camperQuery = _campCompContext.Campers.SingleOrDefault(c => c.Id == id);
+            var camperQuery = _campCompContext.Campers.SingleOrDefault(c => c.CamperId == id);
 
             if (camperQuery == null) return NotFound();
 
@@ -88,7 +88,7 @@ namespace AspNetCoreWebApi.Controllers
         {
             if (id == default(int)) return BadRequest("id cannot be 0");
 
-            var camper = _campCompContext.Campers.SingleOrDefault(c => c.Id == id);
+            var camper = _campCompContext.Campers.SingleOrDefault(c => c.CamperId == id);
 
             if (camper == null) return NotFound();
 

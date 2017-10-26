@@ -2,6 +2,7 @@
 using AspNetCoreWebApi.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
 
 namespace AspNetCoreWebApi.Controllers
 {
@@ -21,11 +22,11 @@ namespace AspNetCoreWebApi.Controllers
         [HttpGet]
         public IActionResult Get(int id)
         {
-            var camp = _campCompContext.Campers.SingleOrDefault(c => c.Id == id);
+            var camp = _campCompContext.Campers.Include(c => c.Addresses).SingleOrDefault(c => c.CamperId == id);
 
             if (camp == null) return NotFound();
 
-            var addresses = _campCompContext.Addresses.Where(a => a.CamperId == id).ToList();
+            var addresses = camp.Addresses.ToList();
 
             if (!addresses.Any()) return NotFound();
 

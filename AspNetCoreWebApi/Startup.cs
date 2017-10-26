@@ -70,7 +70,5 @@ namespace AspNetCoreWebApi
 
             app.UseMvc();
         }
-
-        
     }
 }

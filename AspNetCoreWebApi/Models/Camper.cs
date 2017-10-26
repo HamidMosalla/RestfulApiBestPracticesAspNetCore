@@ -7,12 +7,13 @@ namespace AspNetCoreWebApi.Models
     {
         //I shouldn't be using entities directly, but for this trivial sample, it works
         [Key]
-        public int Id { get; set; }
+        public int CamperId { get; set; }
+
         [Required]
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public int Age { get; set; }
 
-        public virtual ICollection<Address> Addresses { get; set; }
+        public ICollection<Address> Addresses { get; set; }
     }
 }
