@@ -2,6 +2,7 @@
 using System.Net;
 using System.Threading.Tasks;
 using AspNetCoreWebApi.ActionFilters;
+using AspNetCoreWebApi.Dto;
 using AspNetCoreWebApi.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -25,7 +26,13 @@ namespace AspNetCoreWebApi.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            var camps = _campCompContext.Campers.ToList();
+            var camps = _campCompContext.Campers.Select(c => new CamperDto
+            {
+                CamperCode = $"{c.FirstName.First()}{c.LastName.First()}",
+                Addresses = c.Addresses,
+                Age = c.Age,
+                Name = $"{c.FirstName} {c.LastName}"
+            }).ToList();
 
             if (!camps.Any()) return StatusCode((int)HttpStatusCode.NotFound);
 
@@ -43,19 +50,21 @@ namespace AspNetCoreWebApi.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody]Camper camper)
+        public async Task<IActionResult> Post([FromBody]CamperCreateDto camper)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
             _logger.LogInformation("Creating a new camp");
 
-            await _campCompContext.Campers.AddAsync(camper);
+            var newCamper = new Camper {Age = camper.Age, FirstName = camper.FirstName, LastName = camper.LastName};
+
+            await _campCompContext.Campers.AddAsync(newCamper);
 
             var addCampResult = await _campCompContext.SaveChangesAsync();
 
             if (addCampResult > 0)
             {
-                var uri = Url.Link("GetCamper", new { id = camper.CamperId });
+                var uri = Url.Link("GetCamper", new { id = newCamper.CamperId });
 
                 return Created(uri, camper);
             }

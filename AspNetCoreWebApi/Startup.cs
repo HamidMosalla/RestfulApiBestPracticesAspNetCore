@@ -65,8 +65,11 @@ namespace AspNetCoreWebApi
             {
                 app.UseDeveloperExceptionPage();
             }
+            else
+            {
+                app.UseWebApiExceptionHandler();
+            }
 
-            app.UseWebApiExceptionHandler();
 
             app.UseMvc();
         }
