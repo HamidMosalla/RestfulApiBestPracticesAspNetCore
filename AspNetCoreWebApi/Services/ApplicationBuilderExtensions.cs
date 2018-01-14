@@ -33,7 +33,7 @@ namespace AspNetCoreWebApi.Services
                         await context.Response.WriteAsync(new ErrorDto()
                         {
                             Code = (int)HttpStatusCode.BadRequest,
-                            Message = "An unexpected error happened, please try again later or call your administrator."//ex.Message
+                            Message = "An unexpected error has happened, please try again later or call your administrator."//ex.Message
                         }.ToString(), Encoding.UTF8);
                     }
                 });

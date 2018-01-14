@@ -20,7 +20,7 @@ namespace AspNetCoreWebApi.Controllers
         }
 
         [HttpGet]
-        public IActionResult Get(int id)
+        public IActionResult GetAddressesForCamp(int id)
         {
             var camp = _campCompContext.Campers.Include(c => c.Addresses).SingleOrDefault(c => c.CamperId == id);
 

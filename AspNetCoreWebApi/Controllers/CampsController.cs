@@ -25,7 +25,7 @@ namespace AspNetCoreWebApi.Controllers
         }
 
         [HttpGet]
-        public IActionResult Get()
+        public IActionResult GetCamps()
         {
             var camps = _campCompContext.Campers.Select(c => new CamperDto
             {
@@ -41,7 +41,7 @@ namespace AspNetCoreWebApi.Controllers
         }
 
         [HttpGet("{id}", Name = "GetCamper")]
-        public IActionResult Get(int id)
+        public IActionResult GetCamp(int id)
         {
             var camp = _campCompContext.Campers.SingleOrDefault(c => c.CamperId == id);
 
@@ -51,7 +51,7 @@ namespace AspNetCoreWebApi.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody]CamperCreateDto camper)
+        public async Task<IActionResult> CreateCamp([FromBody]CamperCreateDto camper)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
@@ -74,9 +74,28 @@ namespace AspNetCoreWebApi.Controllers
             return StatusCode((int)HttpStatusCode.InternalServerError);
         }
 
+        [HttpPatch("{id}")]
+        [ValidateModel]
+        public IActionResult PartiallyUpdateCamp(int id, [FromBody]Camper camper)
+        {
+            if (camper == null) return BadRequest();
+
+            var camperQuery = _campCompContext.Campers.SingleOrDefault(c => c.CamperId == id);
+
+            if (camperQuery == null) return NotFound();
+
+            camperQuery.Age = camper.Age;
+            camperQuery.FirstName = camper.FirstName;
+            camperQuery.LastName = camper.LastName;
+
+            if (_campCompContext.SaveChanges() > 0) return Ok(camperQuery);
+
+            return StatusCode((int)HttpStatusCode.InternalServerError);
+        }
+
         [HttpPut("{id}")]
         [ValidateModel]
-        public IActionResult Put(int id, [FromBody]Camper camper)
+        public IActionResult FullyUpdateCamp(int id, [FromBody]Camper camper)
         {
             if (camper == null) return BadRequest();
 
@@ -94,7 +113,7 @@ namespace AspNetCoreWebApi.Controllers
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public IActionResult DeleteCamp(int id)
         {
             if (id == default(int)) return BadRequest("id cannot be 0");
 
