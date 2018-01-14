@@ -9,7 +9,8 @@ using Microsoft.Extensions.Logging;
 
 namespace AspNetCoreWebApi.Controllers
 {
-    [Route("api/[controller]")]
+    //didn't use [controller] because public facing route should always stay the same
+    [Route("api/camps")]
     [ApiVersion("1.0")]
     [ApiVersion("1.1")]
     public class CampsController : Controller

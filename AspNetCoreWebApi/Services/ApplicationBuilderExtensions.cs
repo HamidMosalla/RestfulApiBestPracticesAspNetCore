@@ -13,7 +13,7 @@ namespace AspNetCoreWebApi.Services
     {
         public static IApplicationBuilder UseWebApiExceptionHandler(this IApplicationBuilder app)
         {
-           return app.UseExceptionHandler(WebApiExceptionHandler().Result);
+            return app.UseExceptionHandler(WebApiExceptionHandler().Result);
         }
 
         private static async Task<Action<IApplicationBuilder>> WebApiExceptionHandler()
@@ -33,7 +33,7 @@ namespace AspNetCoreWebApi.Services
                         await context.Response.WriteAsync(new ErrorDto()
                         {
                             Code = (int)HttpStatusCode.BadRequest,
-                            Message = ex.Message
+                            Message = "An unexpected error happened, please try again later or call your administrator."//ex.Message
                         }.ToString(), Encoding.UTF8);
                     }
                 });
