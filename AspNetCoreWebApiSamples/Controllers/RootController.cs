@@ -6,6 +6,8 @@ namespace AspNetCoreWebApiSamples.Controllers
 {
 
     [Route("api")]
+    [ApiVersion("1.0")]
+    //[Produces("application/json")]
     public class RootController : Controller
     {
         private IUrlHelper _urlHelper;

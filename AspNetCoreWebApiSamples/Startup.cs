@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using AspNetCoreRateLimit;
 using AspNetCoreWebApiSamples.Entities;
 using AspNetCoreWebApiSamples.Helpers;
@@ -45,12 +46,12 @@ namespace AspNetCoreWebApiSamples
                 setupAction.OutputFormatters.Add(new XmlDataContractSerializerOutputFormatter());
                 // setupAction.InputFormatters.Add(new XmlDataContractSerializerInputFormatter());
 
-                var xmlDataContractSerializerInputFormatter = 
+                var xmlDataContractSerializerInputFormatter =
                 new XmlDataContractSerializerInputFormatter();
                 xmlDataContractSerializerInputFormatter.SupportedMediaTypes
                     .Add("application/vnd.marvin.authorwithdateofdeath.full+xml");
                 setupAction.InputFormatters.Add(xmlDataContractSerializerInputFormatter);
-                
+
                 var jsonInputFormatter = setupAction.InputFormatters
                 .OfType<JsonInputFormatter>().FirstOrDefault();
 
@@ -61,7 +62,7 @@ namespace AspNetCoreWebApiSamples
                     jsonInputFormatter.SupportedMediaTypes
                     .Add("application/vnd.marvin.authorwithdateofdeath.full+json");
                 }
-                
+
                 var jsonOutputFormatter = setupAction.OutputFormatters
                     .OfType<JsonOutputFormatter>().FirstOrDefault();
 
@@ -75,6 +76,12 @@ namespace AspNetCoreWebApiSamples
             {
                 options.SerializerSettings.ContractResolver =
                 new CamelCasePropertyNamesContractResolver();
+            });
+
+            services.AddApiVersioning(o =>
+            {
+                o.AssumeDefaultVersionWhenUnspecified = true;
+                o.DefaultApiVersion = new ApiVersion(new DateTime(2018, 1, 15));
             });
 
             // register the DbContext on the container, getting the connection string from
@@ -104,13 +111,13 @@ namespace AspNetCoreWebApiSamples
                 =>
                 {
                     expirationModelOptions.MaxAge = 600;
-                }, 
+                },
                 (validationModelOptions)
                 =>
                 {
                     validationModelOptions.AddMustRevalidate = true;
                 });
-            
+
             services.AddMemoryCache();
 
             services.Configure<IpRateLimitOptions>((options) =>
@@ -137,7 +144,7 @@ namespace AspNetCoreWebApiSamples
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, 
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env,
             ILoggerFactory loggerFactory, LibraryContext libraryContext)
         {
             loggerFactory.AddConsole();
@@ -170,7 +177,7 @@ namespace AspNetCoreWebApiSamples
                         context.Response.StatusCode = 500;
                         await context.Response.WriteAsync("An unexpected fault happened. Try again later.");
 
-                    });                      
+                    });
                 });
             }
 
@@ -194,14 +201,14 @@ namespace AspNetCoreWebApiSamples
 
                 cfg.CreateMap<Entities.Book, Models.BookForUpdateDto>();
             });
-            
+
             libraryContext.EnsureSeedDataForContext();
 
             app.UseIpRateLimiting();
 
             app.UseHttpCacheHeaders();
 
-            app.UseMvc(); 
+            app.UseMvc();
         }
     }
 }

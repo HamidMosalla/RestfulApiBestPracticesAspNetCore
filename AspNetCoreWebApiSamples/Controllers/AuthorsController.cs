@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace AspNetCoreWebApiSamples.Controllers
 {
     [Route("api/authors")]
+    [ApiVersion("1.0")]
     public class AuthorsController : Controller
     {
         private ILibraryRepository _libraryRepository;
