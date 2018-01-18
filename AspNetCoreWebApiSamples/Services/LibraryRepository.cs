@@ -69,8 +69,7 @@ namespace AspNetCoreWebApiSamples.Services
             return _context.Authors.FirstOrDefault(a => a.Id == authorId);
         }
 
-        public PagedList<Author> GetAuthors(
-            AuthorsResourceParameters authorsResourceParameters)
+        public PagedList<Author> GetAuthors(AuthorsResourceParameters authorsResourceParameters)
         {
             //var collectionBeforePaging = _context.Authors
             //    .OrderBy(a => a.FirstName)
@@ -83,10 +82,8 @@ namespace AspNetCoreWebApiSamples.Services
             if (!string.IsNullOrEmpty(authorsResourceParameters.Genre))
             {
                 // trim & ignore casing
-                var genreForWhereClause = authorsResourceParameters.Genre
-                    .Trim().ToLowerInvariant();
-                collectionBeforePaging = collectionBeforePaging
-                    .Where(a => a.Genre.ToLowerInvariant() == genreForWhereClause);
+                var genreForWhereClause = authorsResourceParameters.Genre.Trim().ToLowerInvariant();
+                collectionBeforePaging = collectionBeforePaging.Where(a => a.Genre.ToLowerInvariant() == genreForWhereClause);
             }
 
             if (!string.IsNullOrEmpty(authorsResourceParameters.SearchQuery))

@@ -23,8 +23,7 @@ namespace AspNetCoreWebApiSamples.Services
         {
             propertyMappings.Add(new PropertyMapping<AuthorDto, Author>(_authorPropertyMapping));
         }
-        public Dictionary<string, PropertyMappingValue>  GetPropertyMapping
-            <TSource, TDestination>()
+        public Dictionary<string, PropertyMappingValue> GetPropertyMapping <TSource, TDestination>()
         {
             // get matching mapping
             var matchingMapping = propertyMappings.OfType<PropertyMapping<TSource, TDestination>>();
