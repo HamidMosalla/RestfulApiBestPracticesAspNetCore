@@ -97,8 +97,7 @@ namespace AspNetCoreWebApiSamples
 
             services.AddScoped<IUrlHelper>(implementationFactory =>
             {
-                var actionContext = implementationFactory.GetService<IActionContextAccessor>()
-                .ActionContext;
+                var actionContext = implementationFactory.GetService<IActionContextAccessor>().ActionContext;
                 return new UrlHelper(actionContext);
             });
 

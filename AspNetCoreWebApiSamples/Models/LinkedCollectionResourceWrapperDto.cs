@@ -2,8 +2,7 @@
 
 namespace AspNetCoreWebApiSamples.Models
 {
-    public class LinkedCollectionResourceWrapperDto<T> : LinkedResourceBaseDto
-        where T : LinkedResourceBaseDto
+    public class LinkedCollectionResourceWrapperDto<T> : LinkedResourceBaseDto where T : LinkedResourceBaseDto
     {
         public IEnumerable<T> Value { get; set; }
 

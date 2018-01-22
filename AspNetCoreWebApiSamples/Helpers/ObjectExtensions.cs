@@ -7,8 +7,7 @@ namespace AspNetCoreWebApiSamples.Helpers
 {
     public static class ObjectExtensions
     {
-        public static ExpandoObject ShapeData<TSource>(this TSource source,
-          string fields)
+        public static ExpandoObject ShapeData<TSource>(this TSource source, string fields)
         {
             if (source == null)
             {

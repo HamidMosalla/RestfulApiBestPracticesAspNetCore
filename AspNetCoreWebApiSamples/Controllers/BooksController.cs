@@ -138,8 +138,7 @@ namespace AspNetCoreWebApiSamples.Controllers
         }
 
         [HttpPut("{id}", Name = "UpdateBookForAuthor")]
-        public IActionResult UpdateBookForAuthor(Guid authorId, Guid id,
-            [FromBody] BookForUpdateDto book)
+        public IActionResult UpdateBookForAuthor(Guid authorId, Guid id, [FromBody] BookForUpdateDto book)
         {
             if (book == null)
             {
@@ -148,15 +147,13 @@ namespace AspNetCoreWebApiSamples.Controllers
 
             if (book.Description == book.Title)
             {
-                ModelState.AddModelError(nameof(BookForUpdateDto), 
-                    "The provided description should be different from the title.");
+                ModelState.AddModelError(nameof(BookForUpdateDto), "The provided description should be different from the title.");
             }
 
             if (!ModelState.IsValid)
             {
                 return new UnprocessableEntityObjectResult(ModelState);
             }
-
 
             if (!_libraryRepository.AuthorExists(authorId))
             {
@@ -178,9 +175,7 @@ namespace AspNetCoreWebApiSamples.Controllers
 
                 var bookToReturn = Mapper.Map<BookDto>(bookToAdd);
 
-                return CreatedAtRoute("GetBookForAuthor",
-                    new { authorId = authorId, id = bookToReturn.Id},
-                    bookToReturn);
+                return CreatedAtRoute("GetBookForAuthor", new { authorId = authorId, id = bookToReturn.Id}, bookToReturn);
             }
 
             Mapper.Map(book, bookForAuthorFromRepo);
@@ -196,8 +191,7 @@ namespace AspNetCoreWebApiSamples.Controllers
         }
 
         [HttpPatch("{id}", Name = "PartiallyUpdateBookForAuthor")]
-        public IActionResult PartiallyUpdateBookForAuthor(Guid authorId, Guid id,
-            [FromBody] JsonPatchDocument<BookForUpdateDto> patchDoc)
+        public IActionResult PartiallyUpdateBookForAuthor(Guid authorId, Guid id, [FromBody] JsonPatchDocument<BookForUpdateDto> patchDoc)
         {
             if (patchDoc == null)
             {
@@ -218,8 +212,7 @@ namespace AspNetCoreWebApiSamples.Controllers
 
                 if (bookDto.Description == bookDto.Title)
                 {
-                    ModelState.AddModelError(nameof(BookForUpdateDto), 
-                        "The provided description should be different from the title.");
+                    ModelState.AddModelError(nameof(BookForUpdateDto), "The provided description should be different from the title.");
                 }
 
                 TryValidateModel(bookDto);
@@ -301,8 +294,7 @@ namespace AspNetCoreWebApiSamples.Controllers
             return book;
         }
 
-        private LinkedCollectionResourceWrapperDto<BookDto> CreateLinksForBooks(
-            LinkedCollectionResourceWrapperDto<BookDto> booksWrapper)
+        private LinkedCollectionResourceWrapperDto<BookDto> CreateLinksForBooks( LinkedCollectionResourceWrapperDto<BookDto> booksWrapper)
         {
             // link to self
             booksWrapper.Links.Add(

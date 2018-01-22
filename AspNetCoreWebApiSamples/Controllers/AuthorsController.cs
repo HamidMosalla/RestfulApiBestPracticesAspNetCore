@@ -31,8 +31,6 @@ namespace AspNetCoreWebApiSamples.Controllers
             _typeHelperService = typeHelperService;
         }
 
-
-
         [HttpGet(Name = "GetAuthors")]
         [HttpHead]
         public IActionResult GetAuthors(AuthorsResourceParameters authorsResourceParameters, [FromHeader(Name = "Accept")] string mediaType)
@@ -64,19 +62,15 @@ namespace AspNetCoreWebApiSamples.Controllers
                 Response.Headers.Add("X-Pagination",
                     Newtonsoft.Json.JsonConvert.SerializeObject(paginationMetadata));
 
-                var links = CreateLinksForAuthors(authorsResourceParameters,
-                    authorsFromRepo.HasNext, authorsFromRepo.HasPrevious);
+                var links = CreateLinksForAuthors(authorsResourceParameters, authorsFromRepo.HasNext, authorsFromRepo.HasPrevious);
 
                 var shapedAuthors = authors.ShapeData(authorsResourceParameters.Fields);
 
                 var shapedAuthorsWithLinks = shapedAuthors.Select(author =>
                 {
                     var authorAsDictionary = author as IDictionary<string, object>;
-                    var authorLinks = CreateLinksForAuthor(
-                        (Guid)authorAsDictionary["Id"], authorsResourceParameters.Fields);
-
+                    var authorLinks = CreateLinksForAuthor((Guid)authorAsDictionary["Id"], authorsResourceParameters.Fields);
                     authorAsDictionary.Add("links", authorLinks);
-
                     return authorAsDictionary;
                 });
 
@@ -91,12 +85,10 @@ namespace AspNetCoreWebApiSamples.Controllers
             else
             {
                 var previousPageLink = authorsFromRepo.HasPrevious ? 
-                    CreateAuthorsResourceUri(authorsResourceParameters,
-                    ResourceUriType.PreviousPage) : null;
+                    CreateAuthorsResourceUri(authorsResourceParameters, ResourceUriType.PreviousPage) : null;
 
                 var nextPageLink = authorsFromRepo.HasNext ? 
-                    CreateAuthorsResourceUri(authorsResourceParameters,
-                    ResourceUriType.NextPage) : null;
+                    CreateAuthorsResourceUri(authorsResourceParameters, ResourceUriType.NextPage) : null;
 
                 var paginationMetadata = new
                 {
@@ -115,13 +107,10 @@ namespace AspNetCoreWebApiSamples.Controllers
             }
         }
 
-
-        
         [HttpGet("{id}", Name ="GetAuthor")]
         public IActionResult GetAuthor(Guid id, [FromQuery] string fields)
         {
-            if (!_typeHelperService.TypeHasProperties<AuthorDto>
-              (fields))
+            if (!_typeHelperService.TypeHasProperties<AuthorDto>(fields))
             {
                 return BadRequest();
             }
@@ -137,13 +126,13 @@ namespace AspNetCoreWebApiSamples.Controllers
 
             var links = CreateLinksForAuthor(id, fields);
 
-            var linkedResourceToReturn = author.ShapeData(fields)
-                as IDictionary<string, object>;
+            var linkedResourceToReturn = author.ShapeData(fields) as IDictionary<string, object>;
 
             linkedResourceToReturn.Add("links", links);
 
             return Ok(linkedResourceToReturn);
         }
+
 
 
 
@@ -170,22 +159,19 @@ namespace AspNetCoreWebApiSamples.Controllers
 
             var links = CreateLinksForAuthor(authorToReturn.Id, null);
 
-            var linkedResourceToReturn = authorToReturn.ShapeData(null)
-                as IDictionary<string, object>;
+            var linkedResourceToReturn = authorToReturn.ShapeData(null) as IDictionary<string, object>;
 
             linkedResourceToReturn.Add("links", links);
 
-            return CreatedAtRoute("GetAuthor",
-                new { id = linkedResourceToReturn["Id"] },
-                linkedResourceToReturn);
+            return CreatedAtRoute("GetAuthor", new { id = linkedResourceToReturn["Id"] }, linkedResourceToReturn);
         }
 
-
-
         [HttpPost(Name = "CreateAuthorWithDateOfDeath")]
-        [RequestHeaderMatchesMediaType("Content-Type",
-            new[] { "application/vnd.marvin.authorwithdateofdeath.full+json",
-                    "application/vnd.marvin.authorwithdateofdeath.full+xml" })]
+        [RequestHeaderMatchesMediaType("Content-Type", new[]
+        {
+            "application/vnd.marvin.authorwithdateofdeath.full+json",
+            "application/vnd.marvin.authorwithdateofdeath.full+xml"
+        })]
         // [RequestHeaderMatchesMediaType("Accept", new[] { "..." })]
         public IActionResult CreateAuthorWithDateOfDeath( [FromBody] AuthorForCreationWithDateOfDeathDto author)
         {
@@ -208,28 +194,14 @@ namespace AspNetCoreWebApiSamples.Controllers
 
             var links = CreateLinksForAuthor(authorToReturn.Id, null);
 
-            var linkedResourceToReturn = authorToReturn.ShapeData(null)
-                as IDictionary<string, object>;
+            var linkedResourceToReturn = authorToReturn.ShapeData(null) as IDictionary<string, object>;
 
             linkedResourceToReturn.Add("links", links);
 
-            return CreatedAtRoute("GetAuthor",
-                new { id = linkedResourceToReturn["Id"] },
-                linkedResourceToReturn);
+            return CreatedAtRoute("GetAuthor", new { id = linkedResourceToReturn["Id"] }, linkedResourceToReturn);
         }
 
 
-
-        [HttpPost("{id}")]
-        public IActionResult BlockAuthorCreation(Guid id)
-        {
-            if (_libraryRepository.AuthorExists(id))
-            {
-                return new StatusCodeResult(StatusCodes.Status409Conflict);
-            }
-
-            return NotFound();
-        }
 
 
 
@@ -252,8 +224,6 @@ namespace AspNetCoreWebApiSamples.Controllers
             return NoContent();
         }
 
-
-
         [HttpOptions]
         public IActionResult GetAuthorsOptions()
         {
@@ -263,6 +233,16 @@ namespace AspNetCoreWebApiSamples.Controllers
 
 
 
+        [HttpPost("{id}")]
+        public IActionResult BlockAuthorCreation(Guid id)
+        {
+            if (_libraryRepository.AuthorExists(id))
+            {
+                return new StatusCodeResult(StatusCodes.Status409Conflict);
+            }
+
+            return NotFound();
+        }
 
         private IEnumerable<LinkDto> CreateLinksForAuthor(Guid id, string fields)
         {

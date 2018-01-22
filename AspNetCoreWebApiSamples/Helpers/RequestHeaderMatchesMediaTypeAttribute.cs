@@ -36,8 +36,7 @@ namespace AspNetCoreWebApiSamples.Helpers
             // if one of the media types matches, return true
             foreach (var mediaType in _mediaTypes)
             {
-                var mediaTypeMatches = string.Equals(requestHeaders[_requestHeaderToMatch].ToString(),
-                    mediaType, StringComparison.OrdinalIgnoreCase);
+                var mediaTypeMatches = string.Equals(requestHeaders[_requestHeaderToMatch].ToString(), mediaType, StringComparison.OrdinalIgnoreCase);
 
                 if (mediaTypeMatches)
                 {
