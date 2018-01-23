@@ -70,8 +70,7 @@ namespace AspNetCoreWebApiSamples.Controllers
        }
 
         [HttpPost(Name = "CreateBookForAuthor")]
-        public IActionResult CreateBookForAuthor(Guid authorId, 
-            [FromBody] BookForCreationDto book)
+        public IActionResult CreateBookForAuthor(Guid authorId, [FromBody] BookForCreationDto book)
         {
             if (book == null)
             {
@@ -106,9 +105,7 @@ namespace AspNetCoreWebApiSamples.Controllers
 
             var bookToReturn = Mapper.Map<BookDto>(bookEntity);
 
-            return CreatedAtRoute("GetBookForAuthor",
-                new { authorId = authorId, id = bookToReturn.Id },
-                CreateLinksForBook(bookToReturn));
+            return CreatedAtRoute("GetBookForAuthor", new { authorId = authorId, id = bookToReturn.Id }, CreateLinksForBook(bookToReturn));
         }
 
         [HttpDelete("{id}", Name ="DeleteBookForAuthor")]
@@ -233,9 +230,7 @@ namespace AspNetCoreWebApiSamples.Controllers
                 }
 
                 var bookToReturn = Mapper.Map<BookDto>(bookToAdd);
-                return CreatedAtRoute("GetBookForAuthor",
-                    new { authorId = authorId, id = bookToReturn.Id },
-                    bookToReturn);
+                return CreatedAtRoute("GetBookForAuthor", new { authorId = authorId, id = bookToReturn.Id }, bookToReturn);
             }
 
             var bookToPatch = Mapper.Map<BookForUpdateDto>(bookForAuthorFromRepo);
