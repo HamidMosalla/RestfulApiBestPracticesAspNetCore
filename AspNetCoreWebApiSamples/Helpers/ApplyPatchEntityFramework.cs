@@ -1,14 +1,19 @@
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using AspNetCoreWebApiSamples.Entities;
+using Eits.Multitenant.Client.Managment.Repository.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace AspNetCoreWebApiSamples.Helpers
 {
     public class EntityFrameworkPatch
     {
+        //for when we can't use JsonPatchDocument,
+        //maybe because we don't use Json and use something like message pack
         private readonly LibraryContext _libraryContext;
 
         public EntityFrameworkPatch(LibraryContext libraryContext)
@@ -16,7 +21,33 @@ namespace AspNetCoreWebApiSamples.Helpers
             _libraryContext = libraryContext;
         }
 
-        public void ApplyPatch<TEntity, TUpdateDto, TKey>(TEntity entityName, TUpdateDto entityUpdateDto)
+        public async Task ApplyPatch<TEntity, TKey>(TEntity entityName, List<PatchDto> patchDtos) where TEntity : class
+        {
+            var nameValuePairProperties = patchDtos.ToDictionary(a => a.PropertyName, a => a.PropertyValue);
+
+            var dbEntityEntry = _libraryContext.Entry(entityName);
+            dbEntityEntry.CurrentValues.SetValues(nameValuePairProperties);
+            dbEntityEntry.State = EntityState.Modified;
+            await _libraryContext.SaveChangesAsync();
+
+            /* example of what it accept over http, note that property names should match the entity
+                 [
+                    {
+                     "PropertyName": "ModifiedDate",
+                     "PropertyValue": null
+                    },
+                    {
+                     "PropertyName": "CreatedDate",
+                     "PropertyValue": "2020-01-30T12:53:51.6240518"
+                    }
+                ]
+             */
+        }
+    }
+}
+
+/* previous implementation
+ public void ApplyPatch<TEntity, TUpdateDto, TKey>(TEntity entityName, TUpdateDto entityUpdateDto)
             where TEntity : class
             where TUpdateDto : class
         {
@@ -35,8 +66,7 @@ namespace AspNetCoreWebApiSamples.Helpers
             dbEntityEntry.State = EntityState.Modified;
             _libraryContext.SaveChanges();
         }
-    }
-}
+*/
 
 /* https://codereview.stackexchange.com/questions/37304/update-only-modified-fields-in-entity-framework
  public virtual void Update(T entity)
