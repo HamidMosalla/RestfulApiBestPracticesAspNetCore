@@ -46,32 +46,10 @@ namespace AspNetCoreWebApiSamples.Helpers
     }
 }
 
-/* previous implementation
- public void ApplyPatch<TEntity, TUpdateDto, TKey>(TEntity entityName, TUpdateDto entityUpdateDto)
-            where TEntity : class
-            where TUpdateDto : class
-        {
-            var updatableProperties = entityUpdateDto.GetType()
-                                       .GetProperties(BindingFlags.Public | BindingFlags.Instance)
-                                       .Select(x => new { Name = x.Name, Value = x.GetValue(entityUpdateDto, null) })
-                                       .Where(y => y.Value != null &&
-                                       !String.IsNullOrWhiteSpace(y.Value.ToString()) &&
-                                       y.Name != "Id" &&
-                                       y.Value.ToString() != default(DateTime).ToString(CultureInfo.InvariantCulture) &&
-                                       y.Value.ToString() != 0.ToString())
-                                       .ToDictionary(a => a.Name, a => a.Value);
-
-            var dbEntityEntry = _libraryContext.Entry(entityName);
-            dbEntityEntry.CurrentValues.SetValues(updatableProperties);
-            dbEntityEntry.State = EntityState.Modified;
-            _libraryContext.SaveChanges();
-        }
-*/
-
 /* https://codereview.stackexchange.com/questions/37304/update-only-modified-fields-in-entity-framework
  public virtual void Update(T entity)
     {
-        //dbEntityEntry.State = EntityState.Modified; --- I cannot do this.
+        //dbEntityEntry.State = EntityState.Modified;
 
         //Ensure only modified fields are updated.
         var dbEntityEntry = DbContext.Entry(entity);
