@@ -13,7 +13,7 @@ namespace AspNetCoreWebApiSamples.Helpers
     public class EntityFrameworkPatch
     {
         //for when we can't use JsonPatchDocument,
-        //maybe because we don't use Json and use something like message pack
+        //maybe because we don't use Json and use ApiExceptionHandler like message pack
         private readonly LibraryContext _libraryContext;
 
         public EntityFrameworkPatch(LibraryContext libraryContext)

@@ -5,38 +5,38 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 
 namespace AspNetCoreWebApiSamples.Helpers
 {
     public static class ApplicationBuilderExtensions
     {
-        //public static IApplicationBuilder UseWebApiExceptionHandler(this IApplicationBuilder app)
-        //{
-        //    return app.UseExceptionHandler(WebApiExceptionHandler().Result);
-        //}
+        public static IApplicationBuilder UseWebApiExceptionHandler(this IApplicationBuilder app)
+        {
+            var loggerFactory = app.ApplicationServices.GetService(typeof(ILoggerFactory)) as ILoggerFactory;
 
-        //private static async Task<Action<IApplicationBuilder>> WebApiExceptionHandler()
-        //{
-        //    return errorApp =>
-        //    {
-        //        errorApp.Run(async context =>
-        //        {
-        //            context.Response.StatusCode = 500; // or another Status accordingly to Exception Type
-        //            context.Response.ContentType = "application/json";
+            return app.UseExceptionHandler(HandleApiException(loggerFactory));
+        }
 
-        //            var error = context.Features.Get<IExceptionHandlerFeature>();
-        //            if (error != null)
-        //            {
-        //                var ex = error.Error;
+        public static Action<IApplicationBuilder> HandleApiException(ILoggerFactory loggerFactory)
+        {
+            return appBuilder =>
+            {
+                appBuilder.Run(async context =>
+                {
+                    var exceptionHandlerFeature = context.Features.Get<IExceptionHandlerFeature>();
 
-        //                await context.Response.WriteAsync(new ErrorDto()
-        //                {
-        //                    Code = (int)HttpStatusCode.BadRequest,
-        //                    Message = "An unexpected error has happened, please try again later or call your administrator."//ex.Message
-        //                }.ToString(), Encoding.UTF8);
-        //            }
-        //        });
-        //    };
-        //}
+                    if (exceptionHandlerFeature != null)
+                    {
+                        var logger = loggerFactory.CreateLogger("Global exception logger");
+                        logger.LogError(500, exceptionHandlerFeature.Error, exceptionHandlerFeature.Error.Message);
+                    }
+
+                    context.Response.StatusCode = 500;
+                    await context.Response.WriteAsync("An unexpected fault happened. Try again later.");
+
+                });
+            };
+        }
     }
 }
