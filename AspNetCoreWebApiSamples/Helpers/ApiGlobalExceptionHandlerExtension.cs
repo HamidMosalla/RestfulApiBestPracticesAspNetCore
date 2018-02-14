@@ -9,7 +9,7 @@ using Microsoft.Extensions.Logging;
 
 namespace AspNetCoreWebApiSamples.Helpers
 {
-    public static class ApplicationBuilderExtensions
+    public static class ApiGlobalExceptionHandlerExtension
     {
         public static IApplicationBuilder UseWebApiExceptionHandler(this IApplicationBuilder app)
         {
@@ -28,7 +28,7 @@ namespace AspNetCoreWebApiSamples.Helpers
 
                     if (exceptionHandlerFeature != null)
                     {
-                        var logger = loggerFactory.CreateLogger("Global exception logger");
+                        var logger = loggerFactory.CreateLogger("Serilog Global exception logger");
                         logger.LogError(500, exceptionHandlerFeature.Error, exceptionHandlerFeature.Error.Message);
                     }
 

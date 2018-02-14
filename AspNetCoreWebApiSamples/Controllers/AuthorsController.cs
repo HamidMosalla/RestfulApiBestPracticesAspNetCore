@@ -35,8 +35,6 @@ namespace AspNetCoreWebApiSamples.Controllers
         [HttpHead]
         public IActionResult GetAuthors(AuthorsResourceParameters authorsResourceParameters, [FromHeader(Name = "Accept")] string mediaType)
         {
-            throw new ArgumentNullException("yeah, it's a lazy exception");
-
             if (!_propertyMappingService.ValidMappingExistsFor<AuthorDto, Author>(authorsResourceParameters.OrderBy))
             {
                 return BadRequest();

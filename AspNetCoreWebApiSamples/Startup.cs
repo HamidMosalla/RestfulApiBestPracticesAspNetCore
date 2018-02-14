@@ -145,16 +145,17 @@ namespace AspNetCoreWebApiSamples
         public void Configure(IApplicationBuilder app, IHostingEnvironment env,
             ILoggerFactory loggerFactory, LibraryContext libraryContext)
         {
+            loggerFactory.AddConsole();
+
             loggerFactory.AddDebug(LogLevel.Information);
 
             if (env.IsDevelopment())
             {
-                //app.UseDeveloperExceptionPage();
-                app.UseWebApiExceptionHandler();
+                app.UseDeveloperExceptionPage();
             }
             else
             {
-                
+                app.UseWebApiExceptionHandler();
             }
 
             AutoMapper.Mapper.Initialize(cfg =>

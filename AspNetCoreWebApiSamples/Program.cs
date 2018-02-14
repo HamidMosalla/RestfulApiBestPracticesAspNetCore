@@ -29,7 +29,7 @@ namespace AspNetCoreWebApiSamples
 
             try
             {
-                Log.Information("Getting the motors running...");
+                Log.Information("Host starting...");
 
                 BuildWebHost(args).Run();
             }
@@ -45,9 +45,9 @@ namespace AspNetCoreWebApiSamples
 
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>()
-                .UseConfiguration(Configuration)
-                .UseSerilog()
-                .Build();
+                   .UseStartup<Startup>()
+                   .UseConfiguration(Configuration)
+                   .UseSerilog()
+                   .Build();
     }
 }

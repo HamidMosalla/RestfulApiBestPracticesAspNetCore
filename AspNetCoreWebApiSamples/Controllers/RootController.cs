@@ -1,20 +1,23 @@
 ﻿using System.Collections.Generic;
 using AspNetCoreWebApiSamples.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace AspNetCoreWebApiSamples.Controllers
 {
 
     [Route("api")]
-    [ApiVersion("1.0")]
+    //[ApiVersion("1.0")]
     //[Produces("application/json")]
     public class RootController : Controller
     {
         private IUrlHelper _urlHelper;
+        private ILogger<RootController> _logger;
 
-        public RootController(IUrlHelper urlHelper)
+        public RootController(IUrlHelper urlHelper, ILogger<RootController> logger)
         {
             _urlHelper = urlHelper;
+            _logger = logger;
         }
 
         [HttpGet(Name = "GetRoot")]
@@ -43,6 +46,13 @@ namespace AspNetCoreWebApiSamples.Controllers
             }
 
             return NoContent();
+        }
+
+        [HttpPost]
+        public IActionResult PostRoot()
+        {
+            _logger.LogError("something something", "so something");
+            return Ok();
         }
     }
 }
