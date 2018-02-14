@@ -17,7 +17,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Serialization;
-using NLog.Extensions.Logging;
 
 namespace AspNetCoreWebApiSamples
 {
@@ -146,36 +145,16 @@ namespace AspNetCoreWebApiSamples
         public void Configure(IApplicationBuilder app, IHostingEnvironment env,
             ILoggerFactory loggerFactory, LibraryContext libraryContext)
         {
-            loggerFactory.AddConsole();
-
             loggerFactory.AddDebug(LogLevel.Information);
-
-            //  loggerFactory.AddProvider(new NLog.Extensions.Logging.NLogLoggerProvider());
-
-            loggerFactory.AddNLog();
 
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+                //app.UseDeveloperExceptionPage();
+                app.UseWebApiExceptionHandler();
             }
             else
             {
-                app.UseExceptionHandler(appBuilder =>
-                {
-                    appBuilder.Run(async context =>
-                    {
-                        var exceptionHandlerFeature = context.Features.Get<IExceptionHandlerFeature>();
-                        if (exceptionHandlerFeature != null)
-                        {
-                            var logger = loggerFactory.CreateLogger("Global exception logger");
-                            logger.LogError(500, exceptionHandlerFeature.Error, exceptionHandlerFeature.Error.Message);
-                        }
-
-                        context.Response.StatusCode = 500;
-                        await context.Response.WriteAsync("An unexpected fault happened. Try again later.");
-
-                    });
-                });
+                
             }
 
             AutoMapper.Mapper.Initialize(cfg =>
