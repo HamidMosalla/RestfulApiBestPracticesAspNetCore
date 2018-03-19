@@ -200,9 +200,9 @@ namespace AspNetCoreWebApiSamples.Controllers
                 return NotFound();
             }
 
-            var bookForAuthorFromRepo = _libraryRepository.GetBookForAuthor(authorId, id);
+            var book = _libraryRepository.GetBookForAuthor(authorId, id);
 
-            if (bookForAuthorFromRepo == null)
+            if (book == null)
             {
                 var bookDto = new BookForUpdateDto();
                 patchDoc.ApplyTo(bookDto, ModelState);
@@ -233,28 +233,28 @@ namespace AspNetCoreWebApiSamples.Controllers
                 return CreatedAtRoute("GetBookForAuthor", new { authorId = authorId, id = bookToReturn.Id }, bookToReturn);
             }
 
-            var bookToPatch = Mapper.Map<BookForUpdateDto>(bookForAuthorFromRepo);
+            var bookDtoToPatch = Mapper.Map<BookForUpdateDto>(book);
 
-            patchDoc.ApplyTo(bookToPatch, ModelState);
+            patchDoc.ApplyTo(bookDtoToPatch, ModelState);
 
            // patchDoc.ApplyTo(bookToPatch);
 
-            if (bookToPatch.Description == bookToPatch.Title)
+            if (bookDtoToPatch.Description == bookDtoToPatch.Title)
             {
                 ModelState.AddModelError(nameof(BookForUpdateDto), 
                     "The provided description should be different from the title.");
             }
 
-            TryValidateModel(bookToPatch);
+            TryValidateModel(bookDtoToPatch);
 
             if (!ModelState.IsValid)
             {
                 return new UnprocessableEntityObjectResult(ModelState);
             }
            
-            Mapper.Map(bookToPatch, bookForAuthorFromRepo);
+            Mapper.Map(bookDtoToPatch, book);
 
-            _libraryRepository.UpdateBookForAuthor(bookForAuthorFromRepo);
+            _libraryRepository.UpdateBookForAuthor(book);
 
             if (!_libraryRepository.Save())
             {
