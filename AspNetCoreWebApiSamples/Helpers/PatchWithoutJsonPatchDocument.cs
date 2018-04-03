@@ -5,6 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading.Tasks;
+using AspNetCoreWebApiSamples.Models;
 using AutoMapper;
 using Microsoft.AspNetCore.JsonPatch.Internal;
 using Microsoft.AspNetCore.Mvc;
@@ -12,13 +13,6 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 namespace AspNetCoreWebApiSamples.Helpers
 {
-    public class Variance
-    {
-        public string PropertyName { get; set; }
-        public object Left { get; set; }
-        public object Right { get; set; }
-    }
-
     public static class TypeExtensions
     {
         public static bool IsNullOrEmpty<T>(this T value)
