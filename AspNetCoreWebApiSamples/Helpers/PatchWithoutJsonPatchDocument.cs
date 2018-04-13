@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using AspNetCoreWebApiSamples.Entities;
 using AutoMapper;
 using Microsoft.AspNetCore.JsonPatch.Internal;
 using Microsoft.AspNetCore.Mvc;
@@ -13,48 +15,45 @@ namespace AspNetCoreWebApiSamples.Helpers
         private readonly IUrlHelper _urlHelper;
         private readonly IActionContextAccessor _contextAccessor;
         private readonly IMapper _mapper;
+        private readonly LibraryContext _context;
 
-        public PatchWithoutJsonPatchDocument(IActionContextAccessor contextAccessor, IUrlHelper urlHelper, IMapper mapper)
+
+        public PatchWithoutJsonPatchDocument(
+            IActionContextAccessor contextAccessor,
+            IUrlHelper urlHelper,
+            IMapper mapper,
+            LibraryContext context)
         {
             _contextAccessor = contextAccessor;
             _urlHelper = urlHelper;
             _mapper = mapper;
+            _context = context;
         }
 
-        //public async Task ApplyPatch<TEntity, TDto, TKey>(TKey id, TDto dto)
-        //{
-        //    if (dto == null)
-        //        throw new ArgumentNullException($"{nameof(dto)}", $"{nameof(dto)} cannot be null.");
+        public async Task ApplyPatch<TEntity, TDto, TKey>(TKey id, TDto dto) where TEntity : class
+        {
+            if (dto == null)
+                throw new ArgumentNullException($"{nameof(dto)}", $"{nameof(dto)} cannot be null.");
 
-        //    if (id.IsNullOrEmpty())
-        //        throw new ArgumentNullException($"{nameof(id)}", $"{nameof(id)} cannot be null or empty.");
+            if (id.IsNullOrEmpty())
+                throw new ArgumentNullException($"{nameof(id)}", $"{nameof(id)} cannot be null or empty.");
 
-        //    var properties = dto.GetFilledProperties();
+            var properties = dto.GetFilledProperties();
 
-        //    var updateExpressions = properties.Select(BuildExpressionByPropertyName<TEntity>).ToArray();
+            var updateExpressions = properties.Select(BuildExpressionByPropertyName<TEntity>).ToArray();
 
-        //    dto.Id = id;
+            //dto.Id = id;
 
-        //    var entityToUpdate = _mapper.Map<TEntity>(dto);
+            var entityToUpdate = _mapper.Map<TEntity>(dto);
+            _context.Attach(entityToUpdate);
 
-        //    var rowVersion = await _repository.GetOneAsync<TEntity>(t => t.Id.ToString() == id.ToString(), null, true);
+            foreach (var property in properties)
+            {
+                _context.Entry(entityToUpdate).Property(property).IsModified = true;
+            }
 
-        //    entityToUpdate.Version = rowVersion.Version;
-        //    entityToUpdate.ModifiedByApplicationUser = GetCurrentUserIdOrDefault();
-
-        //    _repository.Update(entityToUpdate, null, updateExpressions);
-
-        //    await _repository.SaveAsync();
-        //}
-
-        //public Guid? GetCurrentUserIdOrDefault()
-        //{
-        //    var userId = _contextAccessor.ActionContext.HttpContext.GetUserId();
-
-        //    if (string.IsNullOrEmpty(userId)) return null;
-
-        //    return new Guid(_contextAccessor.ActionContext.HttpContext.GetUserId());
-        //}
+            await _context.SaveChangesAsync();
+        }
 
         public Expression<Func<TEntity, object>> BuildExpressionByPropertyName<TEntity>(string property)
         {
