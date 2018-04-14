@@ -5,7 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using AspNetCoreWebApiSamples.Entities;
-using Eits.Multitenant.Client.Managment.Repository.Interfaces;
+using AspNetCoreWebApiSamples.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace AspNetCoreWebApiSamples.Helpers

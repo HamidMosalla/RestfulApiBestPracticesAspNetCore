@@ -1,4 +1,4 @@
-namespace Eits.Multitenant.Client.Managment.Repository.Interfaces
+namespace AspNetCoreWebApiSamples.Models
 {
     public class PatchDto
     {
