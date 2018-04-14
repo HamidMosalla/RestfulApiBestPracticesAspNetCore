@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using AspNetCoreWebApiSamples.Entities;
 using AspNetCoreWebApiSamples.Helpers;
 using AspNetCoreWebApiSamples.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace AspNetCoreWebApiSamples.Services
 {
@@ -126,6 +128,16 @@ namespace AspNetCoreWebApiSamples.Services
         {
             return _context.Books
                         .Where(b => b.AuthorId == authorId).OrderBy(b => b.Title).ToList();
+        }
+
+        public async Task ApplyPatchAsync<TEntity>(TEntity entityName, List<PatchDto> patchDtos) where TEntity : class
+        {
+            var nameValuePairProperties = patchDtos.ToDictionary(a => a.PropertyName, a => a.PropertyValue);
+
+            var dbEntityEntry = _context.Entry(entityName);
+            dbEntityEntry.CurrentValues.SetValues(nameValuePairProperties);
+            dbEntityEntry.State = EntityState.Modified;
+            await _context.SaveChangesAsync();
         }
 
         public void UpdateBookForAuthor(Book book)

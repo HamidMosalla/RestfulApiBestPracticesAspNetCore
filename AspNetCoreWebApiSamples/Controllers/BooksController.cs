@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using AspNetCoreWebApiSamples.Entities;
 using AspNetCoreWebApiSamples.Helpers;
 using AspNetCoreWebApiSamples.Models;
@@ -67,7 +68,7 @@ namespace AspNetCoreWebApiSamples.Controllers
 
             var bookForAuthor = Mapper.Map<BookDto>(bookForAuthorFromRepo);
             return Ok(CreateLinksForBook(bookForAuthor));
-       }
+        }
 
         [HttpPost(Name = "CreateBookForAuthor")]
         public IActionResult CreateBookForAuthor(Guid authorId, [FromBody] BookForCreationDto book)
@@ -108,7 +109,7 @@ namespace AspNetCoreWebApiSamples.Controllers
             return CreatedAtRoute("GetBookForAuthor", new { authorId = authorId, id = bookToReturn.Id }, CreateLinksForBook(bookToReturn));
         }
 
-        [HttpDelete("{id}", Name ="DeleteBookForAuthor")]
+        [HttpDelete("{id}", Name = "DeleteBookForAuthor")]
         public IActionResult DeleteBookForAuthor(Guid authorId, Guid id)
         {
             if (!_libraryRepository.AuthorExists(authorId))
@@ -172,7 +173,7 @@ namespace AspNetCoreWebApiSamples.Controllers
 
                 var bookToReturn = Mapper.Map<BookDto>(bookToAdd);
 
-                return CreatedAtRoute("GetBookForAuthor", new { authorId = authorId, id = bookToReturn.Id}, bookToReturn);
+                return CreatedAtRoute("GetBookForAuthor", new { authorId = authorId, id = bookToReturn.Id }, bookToReturn);
             }
 
             Mapper.Map(book, bookForAuthorFromRepo);
@@ -237,11 +238,11 @@ namespace AspNetCoreWebApiSamples.Controllers
 
             patchDoc.ApplyTo(bookDtoToPatch, ModelState);
 
-           // patchDoc.ApplyTo(bookToPatch);
+            // patchDoc.ApplyTo(bookToPatch);
 
             if (bookDtoToPatch.Description == bookDtoToPatch.Title)
             {
-                ModelState.AddModelError(nameof(BookForUpdateDto), 
+                ModelState.AddModelError(nameof(BookForUpdateDto),
                     "The provided description should be different from the title.");
             }
 
@@ -251,7 +252,7 @@ namespace AspNetCoreWebApiSamples.Controllers
             {
                 return new UnprocessableEntityObjectResult(ModelState);
             }
-           
+
             Mapper.Map(bookDtoToPatch, book);
 
             _libraryRepository.UpdateBookForAuthor(book);
@@ -263,7 +264,19 @@ namespace AspNetCoreWebApiSamples.Controllers
 
             return NoContent();
         }
-    
+
+        [HttpPatch("{id}", Name = "PatchBook")]
+        public async Task<IActionResult> PatchBook(Guid id, [FromBody] List<PatchDto> patchDtos)
+        {
+            if (id == Guid.Empty) return BadRequest();
+
+            var book = _libraryRepository.GetBookForAuthor(id, id);
+
+            await _libraryRepository.ApplyPatchAsync(book, patchDtos);
+
+            return NoContent();
+        }
+
         private BookDto CreateLinksForBook(BookDto book)
         {
             book.Links.Add(new LinkDto(_urlHelper.Link("GetBookForAuthor",
@@ -272,24 +285,24 @@ namespace AspNetCoreWebApiSamples.Controllers
                 "GET"));
 
             book.Links.Add(
-                new LinkDto(_urlHelper.Link("DeleteBookForAuthor",  new { id = book.Id }),
+                new LinkDto(_urlHelper.Link("DeleteBookForAuthor", new { id = book.Id }),
                 "delete_book",
                 "DELETE"));
 
             book.Links.Add(
-                new LinkDto(_urlHelper.Link("UpdateBookForAuthor",  new { id = book.Id }),
+                new LinkDto(_urlHelper.Link("UpdateBookForAuthor", new { id = book.Id }),
                 "update_book",
                 "PUT"));
 
             book.Links.Add(
-                new LinkDto(_urlHelper.Link("PartiallyUpdateBookForAuthor",  new { id = book.Id }),
+                new LinkDto(_urlHelper.Link("PartiallyUpdateBookForAuthor", new { id = book.Id }),
                 "partially_update_book",
                 "PATCH"));
 
             return book;
         }
 
-        private LinkedCollectionResourceWrapperDto<BookDto> CreateLinksForBooks( LinkedCollectionResourceWrapperDto<BookDto> booksWrapper)
+        private LinkedCollectionResourceWrapperDto<BookDto> CreateLinksForBooks(LinkedCollectionResourceWrapperDto<BookDto> booksWrapper)
         {
             // link to self
             booksWrapper.Links.Add(

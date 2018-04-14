@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using AspNetCoreWebApiSamples.Entities;
 using AspNetCoreWebApiSamples.Helpers;
+using AspNetCoreWebApiSamples.Models;
 
 namespace AspNetCoreWebApiSamples.Services
 {
@@ -19,6 +21,7 @@ namespace AspNetCoreWebApiSamples.Services
         void AddBookForAuthor(Guid authorId, Book book);
         void UpdateBookForAuthor(Book book);
         void DeleteBook(Book book);
+        Task ApplyPatchAsync<TEntity>(TEntity entityName, List<PatchDto> patchDtos) where TEntity : class;
         bool Save();
     }
 }
