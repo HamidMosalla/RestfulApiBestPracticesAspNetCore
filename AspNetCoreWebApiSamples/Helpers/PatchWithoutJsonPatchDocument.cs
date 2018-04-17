@@ -30,7 +30,7 @@ namespace AspNetCoreWebApiSamples.Helpers
             _context = context;
         }
 
-        public async Task ApplyPatch<TEntity, TDto, TKey>(TKey id, TDto dto) where TEntity : class
+        public async Task ApplyPatchBasedOnDto<TEntity, TDto, TKey>(TKey id, TDto dto) where TEntity : class
         {
             if (dto == null)
                 throw new ArgumentNullException($"{nameof(dto)}", $"{nameof(dto)} cannot be null.");
