@@ -77,11 +77,11 @@ namespace AspNetCoreWebApiSamples
                 new CamelCasePropertyNamesContractResolver();
             });
 
-            services.AddApiVersioning(o =>
-            {
-                o.AssumeDefaultVersionWhenUnspecified = true;
-                o.DefaultApiVersion = new ApiVersion(new DateTime(2018, 1, 15));
-            });
+            //services.AddApiVersioning(o =>
+            //{
+            //    o.AssumeDefaultVersionWhenUnspecified = true;
+            //    o.DefaultApiVersion = new ApiVersion(new DateTime(2018, 1, 15));
+            //});
 
             // register the DbContext on the container, getting the connection string from
             // appSettings (note: use this during development; in a production environment,
