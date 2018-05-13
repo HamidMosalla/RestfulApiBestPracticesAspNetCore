@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using ApiClient.Models;
 using RestSharp;
+using RestSharp.Authenticators;
 
 namespace ApiClient.Controllers
 {
@@ -14,7 +15,7 @@ namespace ApiClient.Controllers
         public IActionResult Index()
         {
             var client = new RestClient("http://recruitment.blog.api.eits.localhost:49893/");
-            // client.Authenticator = new HttpBasicAuthenticator(username, password);
+            //client.Authenticator = new HttpBasicAuthenticator(username, password);
 
             //var getBlogStoriesRequest = new RestRequest("api/blog-story/get-blog-stories", Method.GET);
             //IRestResponse<List<BlogStory>> autoDeserializeReponse = client.Execute<List<BlogStory>>(getBlogStoriesRequest);
