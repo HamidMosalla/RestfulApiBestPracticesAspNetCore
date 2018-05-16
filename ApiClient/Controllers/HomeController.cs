@@ -14,7 +14,7 @@ namespace ApiClient.Controllers
     {
         public IActionResult Index()
         {
-            var client = new RestClient("http://recruitment.blog.api.eits.localhost:49893/");
+            var client = new RestClient("http://localhost:2500/api");
             //client.Authenticator = new HttpBasicAuthenticator(username, password);
 
             //var getBlogStoriesRequest = new RestRequest("api/blog-story/get-blog-stories", Method.GET);
