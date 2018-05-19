@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using ApiClient.Models;
 using RestSharp;
 using RestSharp.Authenticators;
+using AspNetCoreWebApiSamples.Models;
 
 namespace ApiClient.Controllers
 {
@@ -17,15 +18,15 @@ namespace ApiClient.Controllers
             var client = new RestClient("http://localhost:2500/api");
             //client.Authenticator = new HttpBasicAuthenticator(username, password);
 
-            //var getBlogStoriesRequest = new RestRequest("api/blog-story/get-blog-stories", Method.GET);
-            //IRestResponse<List<BlogStory>> autoDeserializeReponse = client.Execute<List<BlogStory>>(getBlogStoriesRequest);
-            //var blogStories = autoDeserializeReponse.Data;
+            var getAuthorsRequest = new RestRequest("authors", Method.GET);
+            IRestResponse<List<AuthorDto>> getAuthorsResponse = client.Execute<List<AuthorDto>>(getAuthorsRequest);
+            var authors = getAuthorsResponse.Data;
 
-            //var getBlogStoryRequest1 = new RestRequest("api/blog-story/get-blog-story/{id}", Method.GET);
-            ////add url segment, note that you should include the segment in new RestRequest("api/blog-story/get-blog-story/{id}"
-            //getBlogStoryRequest1.AddUrlSegment("id", "3274b792-b517-46b6-f121-08d5b1d7e4fc");
-            //IRestResponse<BlogStory> autoDeserializeReponse2 = client.Execute<BlogStory>(getBlogStoryRequest1);
-            //var blogStory = autoDeserializeReponse2.Data;
+            var getAuthorRequest = new RestRequest("authors/{id}", Method.GET);
+            //add url segment, note that you should include the segment in new RestRequest("authors/{id}"
+            getAuthorRequest.AddUrlSegment("id", "412c3012-d891-4f5e-9613-ff7aa63e6bb3");
+            IRestResponse<AuthorDto> getAuthorResponse = client.Execute<AuthorDto>(getAuthorRequest);
+            var author = getAuthorResponse.Data;
 
             //var getBlogStoryRequest2 = new RestRequest("api/blog-story/get-blog-story", Method.GET);
             ////Add parameter like query string, note that you should NOT include the segment in new RestRequest("api/blog-story/get-blog-story"
