@@ -11,6 +11,12 @@ using AspNetCoreWebApiSamples.Models;
 
 namespace ApiClient.Controllers
 {
+    public class ApiService
+    {
+        
+    }
+
+
     public class HomeController : Controller
     {
         public IActionResult Index()
@@ -28,11 +34,11 @@ namespace ApiClient.Controllers
             IRestResponse<AuthorDto> getAuthorResponse = client.Execute<AuthorDto>(getAuthorRequest);
             var author = getAuthorResponse.Data;
 
-            //var getBlogStoryRequest2 = new RestRequest("api/blog-story/get-blog-story", Method.GET);
-            ////Add parameter like query string, note that you should NOT include the segment in new RestRequest("api/blog-story/get-blog-story"
-            //getBlogStoryRequest2.AddParameter("id", "3274b792-b517-46b6-f121-08d5b1d7e4fc");
-            //IRestResponse<BlogStory> autoDeserializeReponse3 = client.Execute<BlogStory>(getBlogStoryRequest2);
-            //var blogStory2 = autoDeserializeReponse3.Data;
+            var getAuthorRequestWithoutSegment = new RestRequest("api/blog-story/get-blog-story", Method.GET);
+            //Add parameter like query string, note that you should NOT include the segment in new RestRequest("authors?id=something" use parameter instead
+            getAuthorRequestWithoutSegment.AddParameter("id", "412c3012-d891-4f5e-9613-ff7aa63e6bb3");
+            IRestResponse<AuthorDto> getAuthorRequestWithoutSegmentResponse = client.Execute<AuthorDto>(getAuthorRequestWithoutSegment);
+            var author2 = getAuthorRequestWithoutSegmentResponse.Data;
 
             ////// execute the request
             //IRestResponse response = client.Execute(getBlogStoryRequest1);
