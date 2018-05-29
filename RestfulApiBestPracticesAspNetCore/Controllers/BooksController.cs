@@ -71,14 +71,14 @@ namespace RestfulApiBestPracticesAspNetCore.Controllers
         }
 
         [HttpPost(Name = "CreateBookForAuthor")]
-        public IActionResult CreateBookForAuthor(Guid authorId, [FromBody] BookForCreationDto book)
+        public IActionResult CreateBookForAuthor(Guid authorId, [FromBody] BookForCreationDto bookDto)
         {
-            if (book == null)
+            if (bookDto == null)
             {
                 return BadRequest();
             }
 
-            if (book.Description == book.Title)
+            if (bookDto.Description == bookDto.Title)
             {
                 ModelState.AddModelError(nameof(BookForCreationDto),
                     "The provided description should be different from the title.");
@@ -95,7 +95,7 @@ namespace RestfulApiBestPracticesAspNetCore.Controllers
                 return NotFound();
             }
 
-            var bookEntity = Mapper.Map<Book>(book);
+            var bookEntity = Mapper.Map<Book>(bookDto);
 
             _libraryRepository.AddBookForAuthor(authorId, bookEntity);
 
@@ -112,23 +112,15 @@ namespace RestfulApiBestPracticesAspNetCore.Controllers
         [HttpDelete("{id}", Name = "DeleteBookForAuthor")]
         public IActionResult DeleteBookForAuthor(Guid authorId, Guid id)
         {
-            if (!_libraryRepository.AuthorExists(authorId))
-            {
-                return NotFound();
-            }
+            if (!_libraryRepository.AuthorExists(authorId)) return NotFound();
 
             var bookForAuthorFromRepo = _libraryRepository.GetBookForAuthor(authorId, id);
-            if (bookForAuthorFromRepo == null)
-            {
-                return NotFound();
-            }
+
+            if (bookForAuthorFromRepo == null) return NotFound();
 
             _libraryRepository.DeleteBook(bookForAuthorFromRepo);
 
-            if (!_libraryRepository.Save())
-            {
-                throw new Exception($"Deleting book {id} for author {authorId} failed on save.");
-            }
+            if (!_libraryRepository.Save()) throw new Exception($"Deleting book {id} for author {authorId} failed on save.");
 
             _logger.LogInformation(100, $"Book {id} for author {authorId} was deleted.");
 
@@ -136,54 +128,40 @@ namespace RestfulApiBestPracticesAspNetCore.Controllers
         }
 
         [HttpPut("{id}", Name = "UpdateBookForAuthor")]
-        public IActionResult UpdateBookForAuthor(Guid authorId, Guid id, [FromBody] BookForUpdateDto book)
+        public IActionResult UpdateBookForAuthor(Guid authorId, Guid id, [FromBody] BookForUpdateDto bookForUpdateDto)
         {
-            if (book == null)
-            {
-                return BadRequest();
-            }
+            if (bookForUpdateDto == null) return BadRequest();
 
-            if (book.Description == book.Title)
+            if (bookForUpdateDto.Description == bookForUpdateDto.Title)
             {
                 ModelState.AddModelError(nameof(BookForUpdateDto), "The provided description should be different from the title.");
             }
 
-            if (!ModelState.IsValid)
-            {
-                return new UnprocessableEntityObjectResult(ModelState);
-            }
+            if (!ModelState.IsValid) return new UnprocessableEntityObjectResult(ModelState);
 
-            if (!_libraryRepository.AuthorExists(authorId))
-            {
-                return NotFound();
-            }
+            if (!_libraryRepository.AuthorExists(authorId)) return NotFound();
 
             var bookForAuthorFromRepo = _libraryRepository.GetBookForAuthor(authorId, id);
+
             if (bookForAuthorFromRepo == null)
             {
-                var bookToAdd = Mapper.Map<Book>(book);
+                var bookToAdd = Mapper.Map<Book>(bookForUpdateDto);
                 bookToAdd.Id = id;
 
                 _libraryRepository.AddBookForAuthor(authorId, bookToAdd);
 
-                if (!_libraryRepository.Save())
-                {
-                    throw new Exception($"Upserting book {id} for author {authorId} failed on save.");
-                }
+                if (!_libraryRepository.Save()) throw new Exception($"Upserting book {id} for author {authorId} failed on save.");
 
                 var bookToReturn = Mapper.Map<BookDto>(bookToAdd);
 
                 return CreatedAtRoute("GetBookForAuthor", new { authorId = authorId, id = bookToReturn.Id }, bookToReturn);
             }
 
-            Mapper.Map(book, bookForAuthorFromRepo);
+            Mapper.Map(bookForUpdateDto, bookForAuthorFromRepo);
 
             _libraryRepository.UpdateBookForAuthor(bookForAuthorFromRepo);
 
-            if (!_libraryRepository.Save())
-            {
-                throw new Exception($"Updating book {id} for author {authorId} failed on save.");
-            }
+            if (!_libraryRepository.Save()) throw new Exception($"Updating book {id} for author {authorId} failed on save.");
 
             return NoContent();
         }
@@ -191,15 +169,9 @@ namespace RestfulApiBestPracticesAspNetCore.Controllers
         [HttpPatch("{id}", Name = "PartiallyUpdateBookForAuthor")]
         public IActionResult PartiallyUpdateBookForAuthor(Guid authorId, Guid id, [FromBody] JsonPatchDocument<BookForUpdateDto> patchDoc)
         {
-            if (patchDoc == null)
-            {
-                return BadRequest();
-            }
+            if (patchDoc == null) return BadRequest();
 
-            if (!_libraryRepository.AuthorExists(authorId))
-            {
-                return NotFound();
-            }
+            if (!_libraryRepository.AuthorExists(authorId)) return NotFound();
 
             var book = _libraryRepository.GetBookForAuthor(authorId, id);
 
@@ -208,29 +180,22 @@ namespace RestfulApiBestPracticesAspNetCore.Controllers
                 var bookDto = new BookForUpdateDto();
                 patchDoc.ApplyTo(bookDto, ModelState);
 
-                if (bookDto.Description == bookDto.Title)
-                {
-                    ModelState.AddModelError(nameof(BookForUpdateDto), "The provided description should be different from the title.");
-                }
+                if (bookDto.Description == bookDto.Title) ModelState.AddModelError(nameof(BookForUpdateDto), "The provided description should be different from the title.");
 
                 TryValidateModel(bookDto);
 
-                if (!ModelState.IsValid)
-                {
-                    return new UnprocessableEntityObjectResult(ModelState);
-                }
+                if (!ModelState.IsValid) return new UnprocessableEntityObjectResult(ModelState);
 
                 var bookToAdd = Mapper.Map<Book>(bookDto);
+
                 bookToAdd.Id = id;
 
                 _libraryRepository.AddBookForAuthor(authorId, bookToAdd);
 
-                if (!_libraryRepository.Save())
-                {
-                    throw new Exception($"Upserting book {id} for author {authorId} failed on save.");
-                }
+                if (!_libraryRepository.Save()) throw new Exception($"Upserting book {id} for author {authorId} failed on save.");
 
                 var bookToReturn = Mapper.Map<BookDto>(bookToAdd);
+
                 return CreatedAtRoute("GetBookForAuthor", new { authorId = authorId, id = bookToReturn.Id }, bookToReturn);
             }
 
@@ -240,27 +205,17 @@ namespace RestfulApiBestPracticesAspNetCore.Controllers
 
             // patchDoc.ApplyTo(bookToPatch);
 
-            if (bookDtoToPatch.Description == bookDtoToPatch.Title)
-            {
-                ModelState.AddModelError(nameof(BookForUpdateDto),
-                    "The provided description should be different from the title.");
-            }
+            if (bookDtoToPatch.Description == bookDtoToPatch.Title) ModelState.AddModelError(nameof(BookForUpdateDto), "The provided description should be different from the title.");
 
             TryValidateModel(bookDtoToPatch);
 
-            if (!ModelState.IsValid)
-            {
-                return new UnprocessableEntityObjectResult(ModelState);
-            }
+            if (!ModelState.IsValid) return new UnprocessableEntityObjectResult(ModelState);
 
             Mapper.Map(bookDtoToPatch, book);
 
             _libraryRepository.UpdateBookForAuthor(book);
 
-            if (!_libraryRepository.Save())
-            {
-                throw new Exception($"Patching book {id} for author {authorId} failed on save.");
-            }
+            if (!_libraryRepository.Save()) throw new Exception($"Patching book {id} for author {authorId} failed on save.");
 
             return NoContent();
         }
