@@ -8,7 +8,7 @@ using AspNetCoreWebApiSamples.Services;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AspNetCoreWebApiSamples.Controllers
+namespace RestfulApiBestPracticesAspNetCore.Controllers
 {
     [Route("api/authorcollections")]
     public class AuthorCollectionsController : Controller
@@ -21,13 +21,9 @@ namespace AspNetCoreWebApiSamples.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateAuthorCollection(
-            [FromBody] IEnumerable<AuthorForCreationDto> authorCollection)
+        public IActionResult CreateAuthorCollection([FromBody] IEnumerable<AuthorForCreationDto> authorCollection)
         {
-            if (authorCollection == null)
-            {
-                return BadRequest();
-            }
+            if (authorCollection == null) return BadRequest();
 
             var authorEntities = Mapper.Map<IEnumerable<Author>>(authorCollection);
 
@@ -36,27 +32,20 @@ namespace AspNetCoreWebApiSamples.Controllers
                 _libraryRepository.AddAuthor(author);
             }
 
-            if (!_libraryRepository.Save())
-            {
-                throw new Exception("Creating an author collection failed on save.");
-            }
+            if (!_libraryRepository.Save()) throw new Exception("Creating an author collection failed on save.");
 
             var authorCollectionToReturn = Mapper.Map<IEnumerable<AuthorDto>>(authorEntities);
-            var idsAsString = string.Join(",",
-                authorCollectionToReturn.Select(a => a.Id));
 
-            return CreatedAtRoute("GetAuthorCollection",
-                new { ids = idsAsString },
-                authorCollectionToReturn);
-            //return Ok();
+            var idsAsString = string.Join(",", authorCollectionToReturn.Select(a => a.Id));
+
+            return CreatedAtRoute("GetAuthorCollection", new { ids = idsAsString }, authorCollectionToReturn);
         }
 
-        // (key1,key2, ...)
-
-        [HttpGet("({ids})", Name="GetAuthorCollection")]
-        public IActionResult GetAuthorCollection(
-            [ModelBinder(BinderType = typeof(ArrayModelBinder))] IEnumerable<Guid> ids)
-        {           
+        // It take in this form:
+        //get-blog-stories-by-ids/73448281-b9bb-4f99-ecf1-08d5bf2e80d4, 25155221-c07b-4b30-ecf7-08d5bf2e80d4, 487de396-43b3-457e-ecfc-08d5bf2e80d4
+        [HttpGet("({ids})", Name = "GetAuthorCollection")]
+        public IActionResult GetAuthorCollection([ModelBinder(BinderType = typeof(ArrayModelBinder))] IEnumerable<Guid> ids)
+        {
             if (ids == null)
             {
                 return BadRequest();
