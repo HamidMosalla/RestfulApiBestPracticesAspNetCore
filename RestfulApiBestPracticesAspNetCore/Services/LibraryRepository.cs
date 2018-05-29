@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AspNetCoreWebApiSamples.Entities;
-using AspNetCoreWebApiSamples.Helpers;
-using AspNetCoreWebApiSamples.Models;
 using Microsoft.EntityFrameworkCore;
+using RestfulApiBestPracticesAspNetCore.Entities;
+using RestfulApiBestPracticesAspNetCore.Helpers;
+using RestfulApiBestPracticesAspNetCore.Models;
 
-namespace AspNetCoreWebApiSamples.Services
+namespace RestfulApiBestPracticesAspNetCore.Services
 {
     public class LibraryRepository : ILibraryRepository
     {

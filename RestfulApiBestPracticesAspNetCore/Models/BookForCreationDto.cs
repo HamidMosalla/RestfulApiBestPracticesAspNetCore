@@ -1,4 +1,4 @@
-﻿namespace AspNetCoreWebApiSamples.Models
+﻿namespace RestfulApiBestPracticesAspNetCore.Models
 {
     public class BookForCreationDto : BookForManipulationDto
     {

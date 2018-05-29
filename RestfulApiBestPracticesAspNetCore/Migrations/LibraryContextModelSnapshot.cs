@@ -1,10 +1,10 @@
 ﻿using System;
-using AspNetCoreWebApiSamples.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using RestfulApiBestPracticesAspNetCore.Entities;
 
-namespace AspNetCoreWebApiSamples.Migrations
+namespace RestfulApiBestPracticesAspNetCore.Migrations
 {
     [DbContext(typeof(LibraryContext))]
     partial class LibraryContextModelSnapshot : ModelSnapshot

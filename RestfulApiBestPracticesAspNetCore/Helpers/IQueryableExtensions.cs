@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Dynamic.Core;
-using AspNetCoreWebApiSamples.Services;
+using RestfulApiBestPracticesAspNetCore.Services;
 
-namespace AspNetCoreWebApiSamples.Helpers
+namespace RestfulApiBestPracticesAspNetCore.Helpers
 {
     public static class IQueryableExtensions
     {

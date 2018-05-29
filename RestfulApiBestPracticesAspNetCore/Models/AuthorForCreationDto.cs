@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace AspNetCoreWebApiSamples.Models
+namespace RestfulApiBestPracticesAspNetCore.Models
 {
     public class AuthorForCreationDto
     {

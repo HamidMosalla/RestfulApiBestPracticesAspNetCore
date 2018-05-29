@@ -2,13 +2,12 @@
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using AspNetCoreWebApiSamples.Entities;
 using AutoMapper;
-using Microsoft.AspNetCore.JsonPatch.Internal;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
+using RestfulApiBestPracticesAspNetCore.Entities;
 
-namespace AspNetCoreWebApiSamples.Helpers
+namespace RestfulApiBestPracticesAspNetCore.Helpers
 {
     public class PatchWithoutJsonPatchDocument
     {

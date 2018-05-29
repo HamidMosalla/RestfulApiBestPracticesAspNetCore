@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace AspNetCoreWebApiSamples.Entities
+namespace RestfulApiBestPracticesAspNetCore.Entities
 {
     public class Author
     {

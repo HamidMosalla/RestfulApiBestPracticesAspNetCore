@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace AspNetCoreWebApiSamples.Models
+namespace RestfulApiBestPracticesAspNetCore.Models
 {
 
     public abstract class BookForManipulationDto

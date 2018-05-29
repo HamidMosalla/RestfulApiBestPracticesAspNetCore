@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace AspNetCoreWebApiSamples.Entities
+namespace RestfulApiBestPracticesAspNetCore.Entities
 {
     public class LibraryContext : DbContext
     {

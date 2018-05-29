@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace AspNetCoreWebApiSamples.Services
+namespace RestfulApiBestPracticesAspNetCore.Services
 {
     public class PropertyMapping<TSource, TDestination> : IPropertyMapping
     {

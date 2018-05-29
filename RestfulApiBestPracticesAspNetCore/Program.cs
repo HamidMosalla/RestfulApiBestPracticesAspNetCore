@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Serilog;
 
-namespace AspNetCoreWebApiSamples
+namespace RestfulApiBestPracticesAspNetCore
 {
     public class Program
     {

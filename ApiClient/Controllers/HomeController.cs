@@ -5,9 +5,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using ApiClient.Models;
+using RestfulApiBestPracticesAspNetCore.Models;
 using RestSharp;
 using RestSharp.Authenticators;
-using AspNetCoreWebApiSamples.Models;
 
 namespace ApiClient.Controllers
 {

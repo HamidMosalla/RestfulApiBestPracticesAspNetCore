@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using AspNetCoreWebApiSamples.Entities;
-using AspNetCoreWebApiSamples.Helpers;
-using AspNetCoreWebApiSamples.Models;
+using RestfulApiBestPracticesAspNetCore.Entities;
+using RestfulApiBestPracticesAspNetCore.Helpers;
+using RestfulApiBestPracticesAspNetCore.Models;
 
-namespace AspNetCoreWebApiSamples.Services
+namespace RestfulApiBestPracticesAspNetCore.Services
 {
     public interface ILibraryRepository
     {

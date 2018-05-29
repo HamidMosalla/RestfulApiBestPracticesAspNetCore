@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace AspNetCoreWebApiSamples.Helpers
+namespace RestfulApiBestPracticesAspNetCore.Helpers
 {
   public class ValidateModelAttribute : ActionFilterAttribute
   {

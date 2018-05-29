@@ -3,9 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using AspNetCoreWebApiSamples.Models;
+using RestfulApiBestPracticesAspNetCore.Models;
 
-namespace AspNetCoreWebApiSamples.Helpers
+namespace RestfulApiBestPracticesAspNetCore.Helpers
 {
     public static class TypeExtensions
     {

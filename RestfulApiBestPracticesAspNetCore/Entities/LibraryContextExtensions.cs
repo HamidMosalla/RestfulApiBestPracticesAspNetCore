@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace AspNetCoreWebApiSamples.Entities
+namespace RestfulApiBestPracticesAspNetCore.Entities
 {
     public static class LibraryContextExtensions
     {

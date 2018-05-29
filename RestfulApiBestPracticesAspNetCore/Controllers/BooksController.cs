@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AspNetCoreWebApiSamples.Entities;
-using AspNetCoreWebApiSamples.Helpers;
-using AspNetCoreWebApiSamples.Models;
-using AspNetCoreWebApiSamples.Services;
 using AutoMapper;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using RestfulApiBestPracticesAspNetCore.Entities;
+using RestfulApiBestPracticesAspNetCore.Helpers;
+using RestfulApiBestPracticesAspNetCore.Models;
+using RestfulApiBestPracticesAspNetCore.Services;
 
-namespace AspNetCoreWebApiSamples.Controllers
+namespace RestfulApiBestPracticesAspNetCore.Controllers
 {
     [Route("api/authors/{authorId}/books")]
     public class BooksController : Controller

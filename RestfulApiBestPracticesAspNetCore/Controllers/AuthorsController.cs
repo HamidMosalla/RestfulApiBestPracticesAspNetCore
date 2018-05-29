@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using AspNetCoreWebApiSamples.Entities;
-using AspNetCoreWebApiSamples.Helpers;
-using AspNetCoreWebApiSamples.Models;
-using AspNetCoreWebApiSamples.Services;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using RestfulApiBestPracticesAspNetCore.Entities;
+using RestfulApiBestPracticesAspNetCore.Helpers;
+using RestfulApiBestPracticesAspNetCore.Models;
+using RestfulApiBestPracticesAspNetCore.Services;
 
-namespace AspNetCoreWebApiSamples.Controllers
+namespace RestfulApiBestPracticesAspNetCore.Controllers
 {
     [Route("api/authors")]
     //[ApiVersion("1.0")]

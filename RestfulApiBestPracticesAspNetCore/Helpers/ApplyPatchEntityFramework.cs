@@ -1,14 +1,11 @@
-using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
-using AspNetCoreWebApiSamples.Entities;
-using AspNetCoreWebApiSamples.Models;
 using Microsoft.EntityFrameworkCore;
+using RestfulApiBestPracticesAspNetCore.Entities;
+using RestfulApiBestPracticesAspNetCore.Models;
 
-namespace AspNetCoreWebApiSamples.Helpers
+namespace RestfulApiBestPracticesAspNetCore.Helpers
 {
     public class EntityFrameworkPatch
     {

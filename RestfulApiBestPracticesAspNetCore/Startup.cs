@@ -1,13 +1,7 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using AspNetCoreRateLimit;
-using AspNetCoreWebApiSamples.Entities;
-using AspNetCoreWebApiSamples.Helpers;
-using AspNetCoreWebApiSamples.Services;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
@@ -17,8 +11,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Serialization;
+using RestfulApiBestPracticesAspNetCore.Entities;
+using RestfulApiBestPracticesAspNetCore.Helpers;
+using RestfulApiBestPracticesAspNetCore.Services;
 
-namespace AspNetCoreWebApiSamples
+namespace RestfulApiBestPracticesAspNetCore
 {
     public class Startup
     {

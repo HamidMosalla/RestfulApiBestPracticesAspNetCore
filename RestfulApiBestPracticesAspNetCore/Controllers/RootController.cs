@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using AspNetCoreWebApiSamples.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using RestfulApiBestPracticesAspNetCore.Models;
 
-namespace AspNetCoreWebApiSamples.Controllers
+namespace RestfulApiBestPracticesAspNetCore.Controllers
 {
 
     [Route("api")]
@@ -46,13 +46,6 @@ namespace AspNetCoreWebApiSamples.Controllers
             }
 
             return NoContent();
-        }
-
-        [HttpPost]
-        public IActionResult PostRoot()
-        {
-            _logger.LogError("something something", "so something");
-            return Ok();
         }
     }
 }

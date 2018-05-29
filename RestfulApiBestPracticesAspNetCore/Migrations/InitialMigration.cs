@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace AspNetCoreWebApiSamples.Migrations
+namespace RestfulApiBestPracticesAspNetCore.Migrations
 {
     public partial class InitialMigration : Migration
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AspNetCoreWebApiSamples.Models
+namespace RestfulApiBestPracticesAspNetCore.Models
 {
     public class AuthorDto
     {

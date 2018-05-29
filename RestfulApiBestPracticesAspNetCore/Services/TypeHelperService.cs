@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace AspNetCoreWebApiSamples.Services
+namespace RestfulApiBestPracticesAspNetCore.Services
 {
     public class TypeHelperService : ITypeHelperService
     {
