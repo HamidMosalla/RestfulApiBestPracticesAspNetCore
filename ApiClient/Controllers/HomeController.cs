@@ -40,9 +40,9 @@ namespace ApiClient.Controllers
             IRestResponse<AuthorDto> getAuthorRequestWithoutSegmentResponse = client.Execute<AuthorDto>(getAuthorRequestWithoutSegment);
             var author2 = getAuthorRequestWithoutSegmentResponse.Data;
 
-            ////// execute the request
-            //IRestResponse response = client.Execute(getBlogStoryRequest1);
-            //var content = response.Content; // raw content as string
+            //// execute the request
+            IRestResponse response = client.Execute(getAuthorRequest);
+            var content = response.Content; // raw content as string
 
             //// or download and save file to disk
             //client.DownloadData(request2).SaveAs(@"C:\Users\Hamid\Desktop");
