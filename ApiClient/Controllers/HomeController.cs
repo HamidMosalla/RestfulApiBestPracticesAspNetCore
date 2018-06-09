@@ -8,6 +8,7 @@ using ApiClient.Models;
 using RestfulApiBestPracticesAspNetCore.Models;
 using RestSharp;
 using RestSharp.Authenticators;
+using RestSharp.Extensions;
 
 namespace ApiClient.Controllers
 {
@@ -44,17 +45,17 @@ namespace ApiClient.Controllers
             IRestResponse response = client.Execute(getAuthorRequest);
             var content = response.Content; // raw content as string
 
-            //// or download and save file to disk
-            //client.DownloadData(request2).SaveAs(@"C:\Users\Hamid\Desktop");
+            //or download and save file to disk
+            client.DownloadData(getAuthorsRequest).SaveAs(@"C:\Users\Hamid\Desktop");
 
             // async with deserialization
-            //var asyncHandle = client.ExecuteAsync<BlogStory>(request2, r =>
-            //{
-            //    var blogStory3 = autoDeserializeReponse3.Data;
-            //});
+            var asyncHandle = client.ExecuteAsync<AuthorDto>(getAuthorsRequest, r =>
+            {
+                var asyncAuthors = getAuthorsResponse.Data;
+            });
 
-            ////// abort the request on demand
-            //asyncHandle.Abort();
+            //// abort the request on demand
+            asyncHandle.Abort();
 
             var postBlogStoryRequest = new RestRequest("api/blog-story/create-blog-story", Method.POST);
             var blogStoryDto = new BlogStoryDto
