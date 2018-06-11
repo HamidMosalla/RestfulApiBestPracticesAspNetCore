@@ -68,7 +68,7 @@ namespace ApiClient.Controllers
             };
 
             //Note: It adds to the query string not the body
-            //postBlogStoryRequest.AddObject(blogStoryDto);
+            postBlogStoryRequest.AddObject(blogStoryDto);
 
             //// or just whitelisted properties
             //request.AddObject(blogStoryDto, "PersonId", "Name", ...);
