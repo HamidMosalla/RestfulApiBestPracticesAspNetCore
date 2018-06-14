@@ -42,7 +42,7 @@ namespace RestfulApiBestPracticesAspNetCore.Controllers
         }
 
         // It take in this form:
-        //get-blog-stories-by-ids/73448281-b9bb-4f99-ecf1-08d5bf2e80d4, 25155221-c07b-4b30-ecf7-08d5bf2e80d4, 487de396-43b3-457e-ecfc-08d5bf2e80d4
+        //api/authorcollections/73448281-b9bb-4f99-ecf1-08d5bf2e80d4, 25155221-c07b-4b30-ecf7-08d5bf2e80d4, 487de396-43b3-457e-ecfc-08d5bf2e80d4
         [HttpGet("({ids})", Name = "GetAuthorCollection")]
         public IActionResult GetAuthorCollection([ModelBinder(BinderType = typeof(ArrayModelBinder))] IEnumerable<Guid> ids)
         {
