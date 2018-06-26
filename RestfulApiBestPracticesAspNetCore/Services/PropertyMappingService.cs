@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using RestfulApiBestPracticesAspNetCore.Dto;
 using RestfulApiBestPracticesAspNetCore.Entities;
 using RestfulApiBestPracticesAspNetCore.Models;
 

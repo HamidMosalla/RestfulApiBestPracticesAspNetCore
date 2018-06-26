@@ -4,8 +4,11 @@ using System.Linq;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using RestfulApiBestPracticesAspNetCore.Dto;
 using RestfulApiBestPracticesAspNetCore.Entities;
+using RestfulApiBestPracticesAspNetCore.Extensions;
 using RestfulApiBestPracticesAspNetCore.Helpers;
+using RestfulApiBestPracticesAspNetCore.HttpServices;
 using RestfulApiBestPracticesAspNetCore.Models;
 using RestfulApiBestPracticesAspNetCore.Services;
 

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Reflection;
 using RestfulApiBestPracticesAspNetCore.Models;
 
-namespace RestfulApiBestPracticesAspNetCore.Helpers
+namespace RestfulApiBestPracticesAspNetCore.Extensions
 {
     public static class TypeExtensions
     {

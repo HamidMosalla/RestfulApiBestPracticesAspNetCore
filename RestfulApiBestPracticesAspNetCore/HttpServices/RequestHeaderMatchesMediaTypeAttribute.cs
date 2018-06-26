@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc.ActionConstraints;
 
-namespace RestfulApiBestPracticesAspNetCore.Helpers
+namespace RestfulApiBestPracticesAspNetCore.HttpServices
 {
     [AttributeUsage(AttributeTargets.All, Inherited = true, AllowMultiple = true)]
     public class RequestHeaderMatchesMediaTypeAttribute : Attribute, IActionConstraint

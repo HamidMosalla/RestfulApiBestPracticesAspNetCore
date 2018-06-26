@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-namespace RestfulApiBestPracticesAspNetCore.Helpers
+namespace RestfulApiBestPracticesAspNetCore.HttpServices
 {
     public class UnprocessableEntityObjectResult : ObjectResult
     {

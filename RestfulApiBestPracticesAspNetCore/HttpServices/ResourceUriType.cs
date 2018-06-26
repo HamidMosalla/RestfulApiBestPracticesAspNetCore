@@ -1,4 +1,4 @@
-﻿namespace RestfulApiBestPracticesAspNetCore.Helpers
+﻿namespace RestfulApiBestPracticesAspNetCore.HttpServices
 {
     public enum ResourceUriType
     {

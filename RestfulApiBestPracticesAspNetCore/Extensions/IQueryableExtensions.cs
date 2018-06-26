@@ -4,7 +4,7 @@ using System.Linq;
 using System.Linq.Dynamic.Core;
 using RestfulApiBestPracticesAspNetCore.Services;
 
-namespace RestfulApiBestPracticesAspNetCore.Helpers
+namespace RestfulApiBestPracticesAspNetCore.Extensions
 {
     public static class IQueryableExtensions
     {

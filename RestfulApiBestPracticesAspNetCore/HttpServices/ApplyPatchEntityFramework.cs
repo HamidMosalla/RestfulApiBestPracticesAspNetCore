@@ -2,10 +2,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using RestfulApiBestPracticesAspNetCore.Dto;
 using RestfulApiBestPracticesAspNetCore.Entities;
-using RestfulApiBestPracticesAspNetCore.Models;
 
-namespace RestfulApiBestPracticesAspNetCore.Helpers
+namespace RestfulApiBestPracticesAspNetCore.HttpServices
 {
     public class EntityFrameworkPatch
     {

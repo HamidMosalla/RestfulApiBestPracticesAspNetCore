@@ -1,4 +1,4 @@
-namespace RestfulApiBestPracticesAspNetCore.Models
+namespace RestfulApiBestPracticesAspNetCore.Dto
 {
     public class PatchDto
     {

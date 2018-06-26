@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using RestfulApiBestPracticesAspNetCore.Dto;
 using RestfulApiBestPracticesAspNetCore.Entities;
 using RestfulApiBestPracticesAspNetCore.Helpers;
 using RestfulApiBestPracticesAspNetCore.Models;

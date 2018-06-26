@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using ApiClient.Models;
+using RestfulApiBestPracticesAspNetCore.Dto;
 using RestfulApiBestPracticesAspNetCore.Models;
 using RestSharp;
 using RestSharp.Authenticators;

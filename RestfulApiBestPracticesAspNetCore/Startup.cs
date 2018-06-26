@@ -11,8 +11,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Serialization;
+using RestfulApiBestPracticesAspNetCore.Dto;
 using RestfulApiBestPracticesAspNetCore.Entities;
+using RestfulApiBestPracticesAspNetCore.Extensions;
 using RestfulApiBestPracticesAspNetCore.Helpers;
+using RestfulApiBestPracticesAspNetCore.Infrastructure;
 using RestfulApiBestPracticesAspNetCore.Services;
 
 namespace RestfulApiBestPracticesAspNetCore
@@ -157,23 +160,23 @@ namespace RestfulApiBestPracticesAspNetCore
 
             AutoMapper.Mapper.Initialize(cfg =>
             {
-                cfg.CreateMap<Entities.Author, Models.AuthorDto>()
+                cfg.CreateMap<Entities.Author, AuthorDto>()
                     .ForMember(dest => dest.Name, opt => opt.MapFrom(src =>
                     $"{src.FirstName} {src.LastName}"))
                     .ForMember(dest => dest.Age, opt => opt.MapFrom(src =>
                     src.DateOfBirth.GetCurrentAge(src.DateOfDeath)));
 
-                cfg.CreateMap<Entities.Book, Models.BookDto>();
+                cfg.CreateMap<Entities.Book, BookDto>();
 
-                cfg.CreateMap<Models.AuthorForCreationDto, Entities.Author>();
+                cfg.CreateMap<AuthorForCreationDto, Entities.Author>();
 
-                cfg.CreateMap<Models.AuthorForCreationWithDateOfDeathDto, Entities.Author>();
+                cfg.CreateMap<AuthorForCreationWithDateOfDeathDto, Entities.Author>();
 
-                cfg.CreateMap<Models.BookForCreationDto, Entities.Book>();
+                cfg.CreateMap<BookForCreationDto, Entities.Book>();
 
-                cfg.CreateMap<Models.BookForUpdateDto, Entities.Book>();
+                cfg.CreateMap<BookForUpdateDto, Entities.Book>();
 
-                cfg.CreateMap<Entities.Book, Models.BookForUpdateDto>();
+                cfg.CreateMap<Entities.Book, BookForUpdateDto>();
             });
 
             libraryContext.EnsureSeedDataForContext();

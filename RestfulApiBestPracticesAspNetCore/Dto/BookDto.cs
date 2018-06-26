@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace RestfulApiBestPracticesAspNetCore.Models
+namespace RestfulApiBestPracticesAspNetCore.Dto
 {
     public class BookDto : LinkedResourceBaseDto
     {

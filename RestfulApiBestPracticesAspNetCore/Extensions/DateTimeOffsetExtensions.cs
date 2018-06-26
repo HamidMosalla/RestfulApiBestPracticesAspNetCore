@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace RestfulApiBestPracticesAspNetCore.Helpers
+namespace RestfulApiBestPracticesAspNetCore.Extensions
 {
     public static class DateTimeOffsetExtensions
     {

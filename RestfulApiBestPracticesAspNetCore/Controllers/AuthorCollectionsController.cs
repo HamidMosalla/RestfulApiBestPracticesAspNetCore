@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using RestfulApiBestPracticesAspNetCore.Dto;
 using RestfulApiBestPracticesAspNetCore.Entities;
 using RestfulApiBestPracticesAspNetCore.Helpers;
 using RestfulApiBestPracticesAspNetCore.Models;

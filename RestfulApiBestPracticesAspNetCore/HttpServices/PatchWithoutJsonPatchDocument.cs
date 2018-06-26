@@ -6,8 +6,9 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using RestfulApiBestPracticesAspNetCore.Entities;
+using RestfulApiBestPracticesAspNetCore.Extensions;
 
-namespace RestfulApiBestPracticesAspNetCore.Helpers
+namespace RestfulApiBestPracticesAspNetCore.HttpServices
 {
     public class PatchWithoutJsonPatchDocument
     {

@@ -6,8 +6,10 @@ using AutoMapper;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using RestfulApiBestPracticesAspNetCore.Dto;
 using RestfulApiBestPracticesAspNetCore.Entities;
 using RestfulApiBestPracticesAspNetCore.Helpers;
+using RestfulApiBestPracticesAspNetCore.HttpServices;
 using RestfulApiBestPracticesAspNetCore.Models;
 using RestfulApiBestPracticesAspNetCore.Services;
 

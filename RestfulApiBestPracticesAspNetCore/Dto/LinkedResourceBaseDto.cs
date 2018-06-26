@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace RestfulApiBestPracticesAspNetCore.Models
+namespace RestfulApiBestPracticesAspNetCore.Dto
 {
     public abstract class LinkedResourceBaseDto
     {
