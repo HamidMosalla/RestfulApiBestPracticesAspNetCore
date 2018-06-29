@@ -262,10 +262,7 @@ namespace RestfulApiBestPracticesAspNetCore.Controllers
         private LinkedCollectionResourceWrapperDto<BookDto> CreateLinksForBooks(LinkedCollectionResourceWrapperDto<BookDto> booksWrapper)
         {
             // link to self
-            booksWrapper.Links.Add(
-                new LinkDto(_urlHelper.Link("GetBooksForAuthor", new { }),
-                "self",
-                "GET"));
+            booksWrapper.Links.Add( new LinkDto(_urlHelper.Link("GetBooksForAuthor", new { }), "self", "GET"));
 
             return booksWrapper;
         }
