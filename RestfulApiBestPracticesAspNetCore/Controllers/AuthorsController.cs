@@ -136,9 +136,6 @@ namespace RestfulApiBestPracticesAspNetCore.Controllers
             return Ok(linkedResourceToReturn);
         }
 
-
-
-
         [HttpPost(Name = "CreateAuthor")]
         [RequestHeaderMatchesMediaType("Content-Type", new [] { "application/vnd.marvin.author.full+json" })]
         public IActionResult CreateAuthor([FromBody] AuthorForCreationDto author)
@@ -204,10 +201,6 @@ namespace RestfulApiBestPracticesAspNetCore.Controllers
             return CreatedAtRoute("GetAuthor", new { id = linkedResourceToReturn["Id"] }, linkedResourceToReturn);
         }
 
-
-
-
-
         [HttpDelete("{id}", Name = "DeleteAuthor")]
         public IActionResult DeleteAuthor(Guid id)
         {
@@ -233,8 +226,6 @@ namespace RestfulApiBestPracticesAspNetCore.Controllers
             Response.Headers.Add("Allow", "GET,OPTIONS,POST");
             return Ok();
         }
-
-
 
         [HttpPost("{id}")]
         public IActionResult BlockAuthorCreation(Guid id)

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace RestfulApiBestPracticesAspNetCore.HttpServices
 {
+    //Added to the framework
     public class UnprocessableEntityObjectResult : ObjectResult
     {
         public UnprocessableEntityObjectResult(ModelStateDictionary modelState) : base(new SerializableError(modelState))

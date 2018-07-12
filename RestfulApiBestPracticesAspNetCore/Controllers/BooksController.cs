@@ -16,6 +16,9 @@ using RestfulApiBestPracticesAspNetCore.Services;
 namespace RestfulApiBestPracticesAspNetCore.Controllers
 {
     [Route("api/authors/{authorId}/books")]
+    //[ApiVersion("2.0")]
+    //[ApiVersion("1.0", Deprecated = true)]
+    //[Route( "api/v{version:apiVersion}/[controller]" )]
     public class BooksController : Controller
     {
         private ILibraryRepository _libraryRepository;

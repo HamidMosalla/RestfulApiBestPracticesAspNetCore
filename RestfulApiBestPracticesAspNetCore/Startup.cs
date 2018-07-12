@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using AspNetCoreRateLimit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -6,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Routing;
+using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -45,14 +47,15 @@ namespace RestfulApiBestPracticesAspNetCore
                 setupAction.OutputFormatters.Add(new XmlDataContractSerializerOutputFormatter());
                 // setupAction.InputFormatters.Add(new XmlDataContractSerializerInputFormatter());
 
-                var xmlDataContractSerializerInputFormatter =
-                new XmlDataContractSerializerInputFormatter();
-                xmlDataContractSerializerInputFormatter.SupportedMediaTypes
-                    .Add("application/vnd.marvin.authorwithdateofdeath.full+xml");
+                var xmlDataContractSerializerInputFormatter = new XmlDataContractSerializerInputFormatter(new MvcOptions
+                {
+
+                });
+
+                xmlDataContractSerializerInputFormatter.SupportedMediaTypes.Add("application/vnd.marvin.authorwithdateofdeath.full+xml");
                 setupAction.InputFormatters.Add(xmlDataContractSerializerInputFormatter);
 
-                var jsonInputFormatter = setupAction.InputFormatters
-                .OfType<JsonInputFormatter>().FirstOrDefault();
+                var jsonInputFormatter = setupAction.InputFormatters.OfType<JsonInputFormatter>().FirstOrDefault();
 
                 if (jsonInputFormatter != null)
                 {
@@ -62,13 +65,9 @@ namespace RestfulApiBestPracticesAspNetCore
                     .Add("application/vnd.marvin.authorwithdateofdeath.full+json");
                 }
 
-                var jsonOutputFormatter = setupAction.OutputFormatters
-                    .OfType<JsonOutputFormatter>().FirstOrDefault();
+                var jsonOutputFormatter = setupAction.OutputFormatters.OfType<JsonOutputFormatter>().FirstOrDefault();
 
-                if (jsonOutputFormatter != null)
-                {
-                    jsonOutputFormatter.SupportedMediaTypes.Add("application/vnd.marvin.hateoas+json");
-                }
+                if (jsonOutputFormatter != null) jsonOutputFormatter.SupportedMediaTypes.Add("application/vnd.marvin.hateoas+json");
 
             })
             .AddJsonOptions(options =>
@@ -77,11 +76,13 @@ namespace RestfulApiBestPracticesAspNetCore
                 new CamelCasePropertyNamesContractResolver();
             });
 
-            //services.AddApiVersioning(o =>
-            //{
-            //    o.AssumeDefaultVersionWhenUnspecified = true;
-            //    o.DefaultApiVersion = new ApiVersion(new DateTime(2018, 1, 15));
-            //});
+            //https://www.hanselman.com/blog/ASPNETCoreRESTfulWebAPIVersioningMadeEasy.aspx
+            services.AddApiVersioning(o =>
+            {
+                o.AssumeDefaultVersionWhenUnspecified = true;
+                o.DefaultApiVersion = new ApiVersion(1, 1);
+                o.ApiVersionReader = new HeaderApiVersionReader("api-version");
+            });
 
             // register the DbContext on the container, getting the connection string from
             // appSettings (note: use this during development; in a production environment,
@@ -104,14 +105,12 @@ namespace RestfulApiBestPracticesAspNetCore
 
             services.AddTransient<ITypeHelperService, TypeHelperService>();
 
-            services.AddHttpCacheHeaders(
-                (expirationModelOptions)
-                =>
+            services.AddHttpCacheHeaders((expirationModelOptions) =>
                 {
                     expirationModelOptions.MaxAge = 600;
                 },
                 (validationModelOptions)
-                =>
+                    =>
                 {
                     validationModelOptions.AddMustRevalidate = true;
                 });
