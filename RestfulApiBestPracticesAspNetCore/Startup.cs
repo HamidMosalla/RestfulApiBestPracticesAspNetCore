@@ -106,14 +106,9 @@ namespace RestfulApiBestPracticesAspNetCore
             services.AddTransient<ITypeHelperService, TypeHelperService>();
 
             services.AddHttpCacheHeaders((expirationModelOptions) =>
-                {
-                    expirationModelOptions.MaxAge = 600;
-                },
-                (validationModelOptions)
-                    =>
-                {
-                    validationModelOptions.AddMustRevalidate = true;
-                });
+            {
+                expirationModelOptions.MaxAge = 600;
+            });
 
             services.AddMemoryCache();
 
